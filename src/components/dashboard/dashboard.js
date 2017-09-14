@@ -20,7 +20,7 @@ export default function (id, callback) {
     var _nameIn = '收入';  // 
     var _nameOut = '支出';  // 
 
-    var _durationTime = 800; //毫秒
+    var _durationTime = 500; //毫秒
     
 
 
@@ -28,9 +28,9 @@ export default function (id, callback) {
     var _width = parseFloat(d3.select(id).style('width'));
     var _height = parseFloat(d3.select(id).style('height'));
     var _centerX = _width / 2.0;
-    var _centerY = _height / 2.0;
+    var _centerY = _height / 2.0 + 15;
     var _radius = _width < _height? _width / 2.0 : _height / 2.0;
-    _radius = _radius / 5;
+    _radius = _radius / 4;
     var _unit = 10000; // 单位 万
     
     // d3.select(objId).style('background-color', '#333333');
@@ -133,42 +133,6 @@ export default function (id, callback) {
             }
         }
         return _tagsValue;
-        // return [
-        //     {
-        //         'tagid':1,
-        //         'tagename':'Assets',
-        //         'tagname':'资产',
-        //         'amount':59893331.0  // 收入 单位元
-        //     },
-        //     {
-        //         'tagid':2,
-        //         'tagename':'Government',
-        //         'tagname':'政府',
-        //         'amount':1293331.0,  // 收入
-        //         'amount2':97893331.0  // 支出
-        //     },
-        //     {
-        //         'tagid':3,
-        //         'tagename':'Clients',
-        //         'tagname':'客户',
-        //         'amount':13231.0,  // 收入
-        //         'amount2':13231.0  // 支出
-        //     },
-        //     {
-        //         'tagid':4,
-        //         'tagename':'Parters',
-        //         'tagname':'伙伴',
-        //         'amount':12897893331.0,  // 收入
-        //         'amount2':9331.0  // 支出
-        //     },
-        //     {
-        //         'tagid':5,
-        //         'tagename':'Employees',
-        //         'tagname':'员工',
-        //         'amount':32321.0,  // 收入
-        //         'amount2':3231.0  // 支出
-        //     }
-        // ];
     }
     function clear() {
         svgContainer.selectAll('*').remove();
@@ -185,8 +149,8 @@ export default function (id, callback) {
             var _w = maxlen / 1.5;
             var _h = maxlen;
 
-            var _pLeft0 = { x: -_w / 6.0, y: -_h};
-            var _pLeft1 = { x: _w / 8.0, y: -_h * 2 / 3.0};
+            var _pLeft0 = { x: -_w / 4.0, y: -_h};
+            var _pLeft1 = { x: _w / 20.0, y: -_h * 2 / 3.0};
             var _pLeft2 = { x: -_w / 2.0, y: 0};
 
             var _pRight0 = { x: -_pLeft0.x, y: _pLeft0.y};
@@ -215,14 +179,6 @@ export default function (id, callback) {
         _arrow.transition()
         .duration(_durationTime)
         .attr('transform', 'scale(' + len + ')rotate(' + _angle + ')');
-
-        // var _animate = _arrow.append('animate');
-        // _animate.attr('attributeName','fill')
-        // .attr('attributeType','XML')
-        // .attr('from','#2E4F70')
-        // .attr('to','#888888')
-        // .attr('dur','1s')
-        // .attr('fill','freeze');
     }
     // //画圆形
     // function createCircle(centerx, centery, radius, color) {
@@ -564,24 +520,27 @@ export default function (id, callback) {
                     break;
                 }
             }
-            if (_existsArrow) _objarrow.style('display','');
-            else {
+            if (!_existsArrow) {
                 _objarrow
-                .style('display','None')
-                .attr('transform', 'scale(1)');
+                // .style('display','None')
+                .transition()
+                .duration(_durationTime)
+                .attr('transform', 'scale(1)rotate(0)');
             }
 
-            if (_existsCircle) _objcircle.style('display','');
-            else {
+            if (!_existsCircle) {
                 _objcircle
-                .style('display','None')
+                // .style('display','None')
+                .transition()
+                .duration(_durationTime)
                 .attr('transform', 'translate(0,0)');
             }
 
-            if (_existsLabel) _objtext.style('display','');
-            else {
+            if (!_existsLabel) {
                 _objtext
-                .style('display','None')
+                // .style('display','None')
+                .transition()
+                .duration(_durationTime)
                 .attr('transform', 'translate(0,0)');
             }
         }
