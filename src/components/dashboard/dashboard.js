@@ -8,6 +8,7 @@ import * as d3 from 'd3';
 export default function (id, callback) {
     this.getConfig = getConfig;
     this.setConfig = setConfig;
+    this.setBackground = setBackground;
 
     var objId = id;
     // debugger;
@@ -44,8 +45,11 @@ export default function (id, callback) {
     var _objArrows = [];
     var _objCircles = [];
     var _objLabels = [];
-    // init();
     
+    
+    function setBackground(color =  '#333333') {
+        d3.select(objId).style('background-color', color);
+    }
     function setConfig(_conf) {
         if (_confMoneyflows === _conf) return;
         _confMoneyflows = _conf;
@@ -150,7 +154,7 @@ export default function (id, callback) {
             var _h = maxlen;
 
             var _pLeft0 = { x: -_w / 4.0, y: -_h};
-            var _pLeft1 = { x: _w / 20.0, y: -_h * 2 / 3.0};
+            var _pLeft1 = { x: _w / 8.0, y: -_h * 2 / 3.0};
             var _pLeft2 = { x: -_w / 2.0, y: 0};
 
             var _pRight0 = { x: -_pLeft0.x, y: _pLeft0.y};
@@ -172,7 +176,7 @@ export default function (id, callback) {
             .attr('id', _arrowId)
             .attr('d', datafuc(1))
             .attr('transform', 'rotate(' + _angle + ')')
-            .style('fill','#888888');
+            .style('fill','#5C5C5C');
             _objArrows.push(_arrow);
         }
 
@@ -279,9 +283,9 @@ export default function (id, callback) {
                 _endAngle = Math.PI * 2;
             }
             var  _color = _colorOut;
-            if (tag.tagname === _nameInvestment) {
-                _color = _colorInvestment;
-            }
+            // if (tag.tagname === _nameInvestment) {
+            //     _color = _colorInvestment;
+            // }
             _arc = d3.arc()
                 .startAngle(_startAngle)
                 .endAngle(_endAngle)
@@ -290,8 +294,10 @@ export default function (id, callback) {
 
             _gcircle.append('path')
                 .attr('d',_arc)
-                .style('fill',_color)
-                .style('stroke',_colorBorder);
+                .style('stroke',_colorBorder)
+                // .style('stroke-opacity', 0.5)
+                // .style('stroke-width', 1)
+                .style('fill',_color);
         }
             
         if(Math.abs(tag.amount) > _unit) {
@@ -314,8 +320,10 @@ export default function (id, callback) {
                 .outerRadius(_r); 
             _gcircle.append('path')     
                 .attr('d',_arc)
-                .style('fill', _color)
-                .style('stroke', _colorBorder);
+                .style('stroke', _colorBorder)
+                // .style('stroke-opacity', 0.5)
+                // .style('stroke-width', 1)
+                .style('fill', _color);
         }
 
 

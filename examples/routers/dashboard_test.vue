@@ -2,8 +2,7 @@
     <div>
         <div><el-button type="danger" size="small" @click="onReplace1"><i class="el-icon-document el-icon--left"></i>替换数据1</el-button>
         <el-button type="danger" size="small" @click="onReplace2"><i class="el-icon-document el-icon--left"></i>替换数据2</el-button></div>
-        <YxDashboard :dataItems="dataItems" :onClick="onClick" width="414px" height="400px">
-        </YxDashboard>
+        <YxDashboard :dataItems="dataItems" :onClick="onClick" width="414px" height="400px" background="#333333"> </YxDashboard>
         
     </div>
 </template>

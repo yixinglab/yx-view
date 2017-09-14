@@ -15,6 +15,10 @@
                     return [];
                 }
             },
+            background: {
+                type: [String, Number],
+                default: "rgba(51,51,51,0.0)"
+            },
             width: {
                 type: [String, Number],
                 default: "800px"
@@ -34,6 +38,7 @@
         methods: {
             init: function() {
                 if (!_yxDashBoad) _yxDashBoad = new YXDashBoad('#yxdashboad', this.onClick);
+                _yxDashBoad.setBackground(this.background);
                 _yxDashBoad.setConfig(this.dataItems);
             },
             onChange: function() {
