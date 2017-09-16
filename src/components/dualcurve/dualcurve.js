@@ -25,6 +25,7 @@ export default function (id) {
     var _fontSize = 12;
 
     var _conf = null;
+    var _dataJson = null;
 
     var _margin = {top: 20, right: 40, bottom: 30, left: 50};
     
@@ -102,10 +103,10 @@ export default function (id) {
         }
         return arr;
     }
-    function find(arr, curdate) {
+    function find(curdate) {
         var minV = null;
         var _values = 9999999999999;
-        arr.forEach(function(d){
+        _dataJson.forEach(function(d){
             // debugger;
             var _values1 = Math.abs(d.date.getTime() - curdate.getTime());
             // console.log(_values1);
@@ -340,16 +341,12 @@ export default function (id) {
             
             _tooltipRect.attr('width', _tooltipWidth);
             _tooltipTitle.text(_tagModal.date.getFullYear()+'-' +(_tagModal.date.getMonth() + 1)+'-' +_tagModal.date.getDate());
-            _tooltipItemName0
-            .text(_tagModal.name);
-            _tooltipItemValue0
-            // .attr('x', _widthRect - _marginTootip)
-            .text(_tagModal.value);
+            
+            _tooltipItemName0.text(_tagModal.name);
+            _tooltipItemValue0.text(_tagModal.value);
     
             _tooltipItemName1.text(_tagModal.kpiGroup);
-            _tooltipItemValue1 
-            // .attr('x', _widthRect - _marginTootip)
-            .text(_tagModal.priority);
+            _tooltipItemValue1.text(_tagModal.priority);
         }
 
         function show(isshow, posx, posy) {
@@ -379,8 +376,8 @@ export default function (id) {
         reinit();
     }
     function reinit() {
-        var dataJson = getFilterData();
-        if (dataJson.length === 0) return;
+        _dataJson = getFilterData();
+        if (_dataJson.length === 0) return;
         
         _legendWindow.update();
         // debugger;
@@ -407,17 +404,17 @@ export default function (id) {
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y1(d.priority); });
 
-        // format the dataJson
-        dataJson.forEach(function(d) {
+        // format the _dataJson
+        _dataJson.forEach(function(d) {
             d.date = parseTime(d.date);
             d.priority = +d.priority;
             d.value = +d.value;
         });
 
-        // Scale the range of the dataJson
-        x.domain(d3.extent(dataJson, function(d) { return d.date; }));
-        y0.domain([0, d3.max(dataJson, function(d) {return Math.max(d.value);})]);
-        y1.domain([0, d3.max(dataJson, function(d) {return Math.max(d.priority); })]);        
+        // Scale the range of the _dataJson
+        x.domain(d3.extent(_dataJson, function(d) { return d.date; }));
+        y0.domain([0, d3.max(_dataJson, function(d) {return Math.max(d.value);})]);
+        y1.domain([0, d3.max(_dataJson, function(d) {return Math.max(d.priority); })]);        
 
         if(!_tooltipWidow) {
             _tooltipWidow = new TootipClass();
@@ -439,7 +436,7 @@ export default function (id) {
 
                 const _date = x.invert(_mouseX);
                 if (_date) {
-                    var _modal = find(dataJson, _date);
+                    var _modal = find(_date);
                     // console.log(_date);
                     // console.log(_modal.date);
                     // console.log(d3.select(objId).style('left'));
@@ -482,7 +479,7 @@ export default function (id) {
         } 
         else _axis = _axisYs_Content[0];
 
-        _axis.data([dataJson])
+        _axis.data([_dataJson])
         .attr('d', valueline);
         // console.log('log   3');
         
@@ -495,7 +492,7 @@ export default function (id) {
             _axisYs_Content.push(_axis);
         } 
         else _axis = _axisYs_Content[1];
-        _axis.data([dataJson])
+        _axis.data([_dataJson])
         .attr('d', valueline2);
 
         // Add the Y0 Axis
