@@ -9,7 +9,13 @@
     export default {
         name: 'YxDualcurve',
         props: {
-            dataModal: {
+            dataModal1: {
+                type: Array,
+                default: function(){
+                    return [];
+                }
+            },
+            dataModal2: {
                 type: Array,
                 default: function(){
                     return [];
@@ -33,7 +39,8 @@
             this.init();
         },
         watch: {  
-            'dataModal': 'onChange',
+            'dataModal1': 'onChange',
+            'dataModal2': 'onChange',
         },
         methods: {
             init: function() {
@@ -41,10 +48,10 @@
                 // console.log('3333');
                 _yxDualcurveChart = new YXDualcurveChart('#yx_dashboard_2458973_10');
                 _yxDualcurveChart.setBackground(this.background);
-                _yxDualcurveChart.setConfig(this.dataModal);
+                _yxDualcurveChart.setConfig(this.dataModal1,this.dataModal2);
             },
             onChange: function() {
-                _yxDualcurveChart.setConfig(this.dataModal);
+                _yxDualcurveChart.setConfig(this.dataModal1,this.dataModal2);
             }
         }
     }

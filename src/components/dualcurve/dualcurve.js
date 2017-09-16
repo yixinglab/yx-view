@@ -5,7 +5,6 @@
 import * as d3 from 'd3';
 
 export default function (id) {
-    this.getConfig = getConfig;
     this.setConfig = setConfig;
     this.setBackground = setBackground;
 
@@ -18,16 +17,18 @@ export default function (id) {
     var _axisYs_Content = null;
     var _legends = [];
 
-    var _y0Name = '测试1';
-    var _y1Name = '测试2';
+    var _y0Name = '';
+    var _y1Name = '';
     var _y0Color = 'steelblue';
     var _y1Color = 'red';  
     var _fontSize = 12;
 
-    var _conf = null;
-    var _dataJson = null;
-
-    var _margin = {top: 20, right: 40, bottom: 30, left: 50};
+    var _conf0 = null;
+    var _conf1 = null;
+    var _dataJson0 = null;
+    var _dataJson1 = null;
+    
+    var _margin = {top: 20, right: 50, bottom: 30, left: 50};
     
     var _width = parseFloat(d3.select(objId).style('width'));
     var _height = parseFloat(d3.select(objId).style('height'));
@@ -46,12 +47,16 @@ export default function (id) {
     function setBackground(color =  '#333333') {
         d3.select(objId).style('background-color', color);
     }
-    function setConfig(conf) {
-        if (_conf === conf) return;
-        _conf = conf;
-        if (_conf.length > 0) {
-            _y0Name = _conf[0].name;
-            _y1Name = _conf[0].kpiGroup;
+    function setConfig(conf1,conf2) {
+        if (conf1 === _conf0  && conf2 === _conf1) return;
+        _conf0 = conf1;
+        _conf1 = conf2;
+
+        if (_conf0.length > 0) {
+            _y0Name = _conf0[0].name;
+        }
+        if (_conf1.length > 0) {
+            _y1Name = _conf1[0].name;
         }
         // console.log(_inited);
         if(_inited) reinit();
@@ -60,10 +65,6 @@ export default function (id) {
             init();
         }
     }
-    function getConfig() {
-        return _conf;
-    }
-    
     function clear() {
         svgDashboad.selectAll('*').remove();
         svgContainer = svgDashboad.append('g')
@@ -76,12 +77,12 @@ export default function (id) {
         _tooltipWidow = null;
         _legendWindow = null;    
     }
-    function getFilterData() {
+    function getFilterData(_arr,_name) {
         var arr = [];
-        if (_conf) {
-            _conf.forEach(function(d){
+        if (_arr) {
+            _arr.forEach(function(d){
                 // debugger;
-                if (d.name === _y0Name && d.kpiGroup === _y1Name) {
+                if (d.name === _name) {
                     var b = new Object();
                     // "id": 5,
                     // "name": "投诉率",
@@ -89,14 +90,11 @@ export default function (id) {
                     // "value": 0.0000,
                     // "date": "2014-09-14",
                     // "kpiGroup": "primary",
-                    // "priority": 30
-                    b.id = d.id;
+                    // "value": 30
                     b.name = d.name;
-                    b.type = d.type;
+                    if(d.type) b.type = d.type;
                     b.value = d.value;
                     b.date = d.date;
-                    b.kpiGroup = d.kpiGroup;
-                    b.priority = d.priority;
                     arr.push(b);
                 }
             });
@@ -106,7 +104,7 @@ export default function (id) {
     function find(curdate) {
         var minV = null;
         var _values = 9999999999999;
-        _dataJson.forEach(function(d){
+        _dataJson0.forEach(function(d){
             // debugger;
             var _values1 = Math.abs(d.date.getTime() - curdate.getTime());
             // console.log(_values1);
@@ -115,7 +113,18 @@ export default function (id) {
                 minV = d;
             }
         });
-        return minV;
+        var minV1 = null;
+        _values = 9999999999999;
+        _dataJson1.forEach(function(d){
+            // debugger;
+            var _values1 = Math.abs(d.date.getTime() - curdate.getTime());
+            // console.log(_values1);
+            if (_values > _values1) {
+                _values = _values1;
+                minV1 = d;
+            }
+        });
+        return [minV, minV1];
     }
     function onShow(legend){
         var _fill = legend.selectAll('circle').attr('fill');
@@ -161,7 +170,7 @@ export default function (id) {
     function LegendClass() {
         // debugger;
         var _r = 6;
-        var _left = 20;
+        var _left = 20 + _margin.right;
         var _top = 0;
         var _dispatch = d3.dispatch('legendClick', 'legendMouseover', 'legendMouseout');
         _dispatch.on('legendClick', function(d) {
@@ -264,14 +273,15 @@ export default function (id) {
         .attr('transform', 'translate(' +  _marginTootip + ',' + (_marginTootip + _fontsize) + ')');
         
         var _r = _fontsize / 1.75;
-        var _tooltipRect = svgLegendContainer.append('rect')
+    
+        var _tooltipRectB = svgLegendContainer.append('rect')
         .attr('width', _tooltipWidth)
         .attr('height', _tooltipHeight)
+        .style('fill', '#FCFCFC')
         .attr('rx', 5)
         .attr('ry', 5)
         .attr('opacity', 0.5)
-        .style('stroke','#000000')        
-        .style('fill', '#FFFFFF');
+        .style('stroke','#000000');
 
         var _tooltipTitle = svgLegendContainer.append('text')
         .attr('x', _marginTootip)
@@ -331,22 +341,34 @@ export default function (id) {
         .attr('font-weight','bold')
         .attr('text-anchor', 'right');
 
+        function formatPercentageValue(type ,value) {
+            if (type === 'percentage'){
+                var _v = parseInt(value * 10000);
+                return _v / 100.0 + '%';
+            }
+            return value;
+        }
         this.update = update;
         this.show = show;
-        function update(_tagModal) {
-            var _widthRect = _fontsize * (_tagModal.name + _tagModal.value).length + _r + _marginTootip * 2;
-            var _widthRect2 = _fontsize * (_tagModal.kpiGroup + _tagModal.priority).length + _r + _marginTootip * 2;
+        function update(_tagModals) {
+            var _tagModal0 = _tagModals[0];
+            var _tagModal1 = _tagModals[1];
+            var _widthRect = _fontsize * (_tagModal0.name + _tagModal0.value).length + _r + _marginTootip * 2;
+            var _widthRect2 = _fontsize * (_tagModal1.name + _tagModal1.value).length + _r + _marginTootip * 2;
             if (_widthRect2 > _widthRect) _widthRect = _widthRect2;
             _tooltipWidth = _widthRect;
             
-            _tooltipRect.attr('width', _tooltipWidth);
-            _tooltipTitle.text(_tagModal.date.getFullYear()+'-' +(_tagModal.date.getMonth() + 1)+'-' +_tagModal.date.getDate());
+            _tooltipRectB.attr('width', _tooltipWidth);
+
+            _tooltipTitle.text(_tagModal0.date.getFullYear()+'-' +(_tagModal0.date.getMonth() + 1)+'-' +_tagModal0.date.getDate());
             
-            _tooltipItemName0.text(_tagModal.name);
-            _tooltipItemValue0.text(_tagModal.value);
+            _tooltipItemName0.text(_tagModal0.name);
+            if(_tagModal0.type) _tooltipItemValue0.text(formatPercentageValue(_tagModal0.type,_tagModal0.value));
+            else _tooltipItemValue0.text(_tagModal0.value);
     
-            _tooltipItemName1.text(_tagModal.kpiGroup);
-            _tooltipItemValue1.text(_tagModal.priority);
+            _tooltipItemName1.text(_tagModal1.name);
+            if(_tagModal1.type) _tooltipItemValue1.text(formatPercentageValue(_tagModal1.type,_tagModal1.value));
+            else _tooltipItemValue1.text(_tagModal1.value);
         }
 
         function show(isshow, posx, posy) {
@@ -376,8 +398,10 @@ export default function (id) {
         reinit();
     }
     function reinit() {
-        _dataJson = getFilterData();
-        if (_dataJson.length === 0) return;
+        // debugger;
+        _dataJson0 = getFilterData(_conf0, _y0Name);
+        _dataJson1 = getFilterData(_conf1, _y1Name);
+        if (_dataJson0.length === 0 && _dataJson1.length === 0) return;
         
         _legendWindow.update();
         // debugger;
@@ -395,26 +419,27 @@ export default function (id) {
         // debugger;
 
         // define the 1st line
-        var valueline = d3.line()
+        var valueline0 = d3.line()
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y0(d.value); });
         
         // define the 2nd line
-        var valueline2 = d3.line()
+        var valueline1 = d3.line()
         .x(function(d) { return x(d.date); })
-        .y(function(d) { return y1(d.priority); });
+        .y(function(d) { return y1(d.value); });
 
-        // format the _dataJson
-        _dataJson.forEach(function(d) {
+        // format the _dataJson0
+        _dataJson0.forEach(function(d) {
             d.date = parseTime(d.date);
-            d.priority = +d.priority;
-            d.value = +d.value;
+        });
+        _dataJson1.forEach(function(d) {
+            d.date = parseTime(d.date);
         });
 
-        // Scale the range of the _dataJson
-        x.domain(d3.extent(_dataJson, function(d) { return d.date; }));
-        y0.domain([0, d3.max(_dataJson, function(d) {return Math.max(d.value);})]);
-        y1.domain([0, d3.max(_dataJson, function(d) {return Math.max(d.priority); })]);        
+        // Scale the range of the _dataJson0
+        x.domain(d3.extent(_dataJson0, function(d) { return d.date; }));
+        y0.domain([0, d3.max(_dataJson0, function(d) {return Math.max(d.value);})]);
+        y1.domain([0, d3.max(_dataJson1, function(d) {return Math.max(d.value); })]);        
 
         if(!_tooltipWidow) {
             _tooltipWidow = new TootipClass();
@@ -479,8 +504,8 @@ export default function (id) {
         } 
         else _axis = _axisYs_Content[0];
 
-        _axis.data([_dataJson])
-        .attr('d', valueline);
+        _axis.data([_dataJson0])
+        .attr('d', valueline0);
         // console.log('log   3');
         
         // Add the valueline1 path.
@@ -492,8 +517,8 @@ export default function (id) {
             _axisYs_Content.push(_axis);
         } 
         else _axis = _axisYs_Content[1];
-        _axis.data([_dataJson])
-        .attr('d', valueline2);
+        _axis.data([_dataJson1])
+        .attr('d', valueline1);
 
         // Add the Y0 Axis
         if (_axisYs.length === 0) {
