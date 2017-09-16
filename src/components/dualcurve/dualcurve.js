@@ -1,7 +1,6 @@
 /*!
  * Copyright (c) 2017, yx-view
  * All rights reserved.
- * bamai v0.0.1
  */
 import * as d3 from 'd3';
 
