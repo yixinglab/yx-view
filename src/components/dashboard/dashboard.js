@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2017, yixinglab-ui
+ * Copyright (c) 2017, yx-view
  * All rights reserved.
  * bamai v0.0.1
  */

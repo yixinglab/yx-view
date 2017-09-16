@@ -14,8 +14,9 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
     <div class="container">
         <nav>
             <ul>
-                <li><router-link to="/uploadtest">uploadtest</router-link></li>
-                <li><router-link to="/dashboardtest">dashboardtest</router-link></li>
+                <li><router-link to="/uploadtest">上传uploadtest</router-link></li>
+                <li><router-link to="/dashboardtest">流向图dashboardtest</router-link></li>
+                <li><router-link to="/dualcurvetest">双轴曲线图dashboardtest</router-link></li>
             </ul>
         </nav>
         <div>routerview container</div>

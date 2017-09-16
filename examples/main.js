@@ -28,6 +28,10 @@ const router = new VueRouter({
         {
             path: '/dashboardtest',
             component: require('./routers/dashboard_test.vue')
+        },
+        {
+            path: '/dualcurvetest',
+            component: require('./routers/dualcurve_test.vue')
         }
     ]
 });

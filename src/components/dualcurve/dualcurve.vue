@@ -1,15 +1,15 @@
 <template>
-    <div>
-        <div id='yx_dashboard_2458973_9' :style="'width:'+ width +';height:' + height"></div>
-    </div>
+<div>
+    <div id="yx_dashboard_2458973_10" :style="'width:'+ width +';height:' + height"></div>
+</div>
 </template>
 <script>
-    import YXDashBoad from './dashboard.js';
-    let _yxDashBoad = null;
+    import YXDualcurveChart from './dualcurve.js';
+    let _yxDualcurveChart = null;
     export default {
-        name: 'YxDashboard',
+        name: 'YxDualcurve',
         props: {
-            dataItems: {
+            dataModal: {
                 type: Array,
                 default: function(){
                     return [];
@@ -21,7 +21,7 @@
             },
             width: {
                 type: [String, Number],
-                default: "800px"
+                default: "420px"
             },
             height: {
                 type: [String, Number],
@@ -33,17 +33,17 @@
             this.init();
         },
         watch: {  
-            'dataItems': 'onChange',
+            'dataModal': 'onChange',
         },
         methods: {
             init: function() {
-                _yxDashBoad = new YXDashBoad('#yx_dashboard_2458973_9', this.onClick);
-                _yxDashBoad.setBackground(this.background);
-                _yxDashBoad.setConfig(this.dataItems);
+                // debugger;
+                _yxDualcurveChart = new YXDualcurveChart('#yx_dashboard_2458973_10');
+                _yxDualcurveChart.setBackground(this.background);
+                _yxDualcurveChart.setConfig(this.dataModal);
             },
             onChange: function() {
-                // debugger;
-                _yxDashBoad.setConfig(this.dataItems);
+                _yxDualcurveChart.setConfig(this.dataModal);
             }
         }
     }
