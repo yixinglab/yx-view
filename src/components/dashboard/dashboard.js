@@ -34,12 +34,23 @@ export default function (id, callback) {
     _radius = _radius / 4;
     var _unit = 10000; // 单位 万
     
+    var selectCircle = null;
+    var selectCircleShow = false;
     // d3.select(objId).style('background-color', '#333333');
     var svgDashboad = d3.select(objId).append('svg')
+        .on('click', function(){
+            if(selectCircleShow) {
+                selectCircleShow = false;
+                return;
+            }
+            select(0 , 0 ,_radius , false);
+        })
         .attr('width', _width)
         .attr('height', _height);
     var svgContainer = svgDashboad.append('g')
         .attr('transform', 'translate(' + _centerX + ',' + _centerY + ')');
+
+    
 
     var _inited = false;
     var _objArrows = [];
@@ -265,6 +276,8 @@ export default function (id, callback) {
 
         _cirle
         .on('click', function(){
+            selectCircleShow = true;
+            select(toX , toY ,_r , selectCircleShow);
             if (callback) callback(tag);
         })
         .transition()
@@ -488,6 +501,20 @@ export default function (id, callback) {
         createLegend();
 
         reinit();
+        select(0 , 0 ,_radius , false);
+    }
+    function select(x, y , r ,show = true) {
+        if (!selectCircle) {
+            selectCircle = svgContainer.append('circle')
+            .style('opacity',0.2)
+            .style('fill','#FFD700');
+        }
+        selectCircle.attr('r', r + r / 6);
+
+        if (show) selectCircle.style('display','');
+        else selectCircle.style('display','none');
+        
+        selectCircle.attr('transform', 'translate(' + x + ',' + y + ')');
     }
     function reinit() {
         var _r = _radius * 2.5; 
