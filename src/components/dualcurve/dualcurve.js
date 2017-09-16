@@ -53,28 +53,28 @@ export default function (id) {
             _y0Name = _conf[0].name;
             _y1Name = _conf[0].kpiGroup;
         }
-        // if(_inited) reinit();
-        // else {
-        //     _inited = true;
-        //     init();
-        // }
-        init();
+        // console.log(_inited);
+        if(_inited) reinit();
+        else {
+            _inited = true;
+            init();
+        }
     }
     function getConfig() {
         return _conf;
     }
     
     function clear() {
-        svgContainer.selectAll('*').remove();
+        svgDashboad.selectAll('*').remove();
+        svgContainer = svgDashboad.append('g')
+        .attr('transform', 'translate(' + _margin.left + ',' + _margin.top + ')');
         _axisX = null;
         _axisYs = null;
         _axisYs_Content = null;
         _legends = null;
     
         _tooltipWidow = null;
-        _legendWindow = null;
-    
-        _inited = false;
+        _legendWindow = null;    
     }
     function getFilterData() {
         var arr = [];
@@ -82,7 +82,22 @@ export default function (id) {
             _conf.forEach(function(d){
                 // debugger;
                 if (d.name === _y0Name && d.kpiGroup === _y1Name) {
-                    arr.push(d);
+                    var b = new Object();
+                    // "id": 5,
+                    // "name": "投诉率",
+                    // "type": "percentage",
+                    // "value": 0.0000,
+                    // "date": "2014-09-14",
+                    // "kpiGroup": "primary",
+                    // "priority": 30
+                    b.id = d.id;
+                    b.name = d.name;
+                    b.type = d.type;
+                    b.value = d.value;
+                    b.date = d.date;
+                    b.kpiGroup = d.kpiGroup;
+                    b.priority = d.priority;
+                    arr.push(b);
                 }
             });
         }
@@ -243,10 +258,11 @@ export default function (id) {
         var _tooltipHeight = 70;
         var _fontsize = _fontSize;
         var _fontcolor = '#000000';
+
         var svgLegendContainer = svgContainer.append('g')
         .style('display', 'none')
-        .attr('transform', 'translate(' +  _margin + ',' + (_margin + _fontsize) + ')');
-
+        .attr('transform', 'translate(' +  _marginTootip + ',' + (_marginTootip + _fontsize) + ')');
+        
         var _r = _fontsize / 1.75;
         var _tooltipRect = svgLegendContainer.append('rect')
         .attr('width', _tooltipWidth)
@@ -359,7 +375,7 @@ export default function (id) {
     // 初始化
     function init() {
         clear();
-        // debugger;
+        // debugger;        
         if (!_legendWindow) _legendWindow = new LegendClass();
         reinit();
     }
@@ -417,13 +433,11 @@ export default function (id) {
                 var _mousepoint = d3.mouse(tipBox.node());
                 var _mouseX = _mousepoint[0];
                 var _mouseY = _mousepoint[1];
-                
-                
-                
+
                 tooltipLine
                 .attr('stroke', 'grey')
                 .attr('d', 'M' + _mouseX + ',' + 0 + 'L' + _mouseX + ',' + height );
-                
+
                 const _date = x.invert(_mouseX);
                 if (_date) {
                     var _modal = find(dataJson, _date);
@@ -440,16 +454,22 @@ export default function (id) {
             });
         }
 
+        // console.log('log   1');
+        // debugger;
         // Add the X Axis
         if (!_axisX) {
             _axisX = svgContainer.append('g')
             .attr('transform', 'translate(0,' + height + ')');
         }
-        var xAxis = d3.axisBottom(x);
+        
+        // _axisX.selectAll('*').remove();
+        var xAxis = d3.axisBottom().scale(x);
         xAxis.ticks(10)
        .tickFormat(d3.timeFormat('%Y-%m-%d'));
         _axisX.call(xAxis);
-        
+
+        // console.log('log   2');        
+        // debugger;
         if (!_axisYs) _axisYs = [];
         if (!_axisYs_Content) _axisYs_Content = [];
         var _axis = null;
@@ -457,14 +477,16 @@ export default function (id) {
         if (_axisYs_Content.length === 0) {
             _axis = svgContainer.append('path')
             .attr('fill', 'none')
-            .style('stroke', _y0Color)        
+            .style('stroke', _y0Color)
             .style('stroke-width', 2);
             _axisYs_Content.push(_axis);
         } 
         else _axis = _axisYs_Content[0];
+
         _axis.data([dataJson])
         .attr('d', valueline);
-
+        // console.log('log   3');
+        
         // Add the valueline1 path.
         if (_axisYs_Content.length === 1) {
             _axis = svgContainer.append('path')

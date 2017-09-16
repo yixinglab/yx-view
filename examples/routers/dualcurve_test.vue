@@ -30,12 +30,13 @@
                 return arr;
             },
             onReplace1: function() {
-                let _data = this.filterData('投诉率', 'primary');
+                var _data = this.filterData('投诉率', 'primary');
                 this.dataItems = _data;
             },
             onReplace2: function() {
-                let _data = this.filterData('低价值客户', 'secondary');
-                this.dataItems = _data;            }
+                var _data = this.filterData('低价值客户', 'secondary');
+                this.dataItems = _data;            
+            }
         }
     }
 </script>

@@ -38,6 +38,7 @@
         methods: {
             init: function() {
                 // debugger;
+                // console.log('3333');
                 _yxDualcurveChart = new YXDualcurveChart('#yx_dashboard_2458973_10');
                 _yxDualcurveChart.setBackground(this.background);
                 _yxDualcurveChart.setConfig(this.dataModal);
