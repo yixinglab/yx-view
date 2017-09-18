@@ -32,6 +32,10 @@ const router = new VueRouter({
         {
             path: '/dualcurvetest',
             component: require('./routers/dualcurve_test.vue')
+        },
+        {
+            path: '/barchart_twodirection',
+            component: require('./routers/barTwoDirection_test.vue')
         }
     ]
 });

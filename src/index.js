@@ -1,13 +1,16 @@
 import YxUpload from './components/upload/upload.vue';
 import YxDashboard from './components/dashboard/dashboard.vue';
 import YxDualcurve from './components/dualcurve/dualcurve.vue';
+import YxBarTwoDirection from './components/barCharts/barTwoDirection.vue';
+
 
 import locale from './locale';
 
 const yixinglab = {
     YxUpload,
     YxDashboard,
-    YxDualcurve
+    YxDualcurve,
+    YxBarTwoDirection
 };
 
 const install = function (Vue, opts = {}) {
