@@ -37,6 +37,11 @@ const router = new VueRouter({
             path: '/barchart_twodirection',
             component: require('./routers/barTwoDirection_test.vue')
         }
+        ,
+        {
+            path: '/bubbleAnimateChartstest',
+            component: require('./routers/bubbleAnimateCharts_test.vue')
+        }
     ]
 });
 

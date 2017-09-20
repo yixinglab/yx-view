@@ -2,6 +2,7 @@ import YxUpload from './components/upload/upload.vue';
 import YxDashboard from './components/dashboard/dashboard.vue';
 import YxDualcurve from './components/dualcurve/dualcurve.vue';
 import YxBarTwoDirection from './components/barCharts/barTwoDirection.vue';
+import YxBubbleAnimateCharts from './components/bubbleCharts/bubbleAnimateCharts.vue';
 
 
 import locale from './locale';
@@ -10,7 +11,8 @@ const yixinglab = {
     YxUpload,
     YxDashboard,
     YxDualcurve,
-    YxBarTwoDirection
+    YxBarTwoDirection,
+    YxBubbleAnimateCharts
 };
 
 const install = function (Vue, opts = {}) {

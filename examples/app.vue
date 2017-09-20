@@ -18,6 +18,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/dashboardtest">流向图dashboardtest</router-link></li>
                 <li><router-link to="/dualcurvetest">双轴曲线图dashboardtest</router-link></li>
                 <li><router-link to="/barchart_twodirection">柱状图两个方向barchart_twodirection</router-link></li>
+                <li><router-link to="/bubbleAnimateChartstest">Bubble动画图表</router-link></li>
             </ul>
         </nav>
         <div>routerview container</div>
