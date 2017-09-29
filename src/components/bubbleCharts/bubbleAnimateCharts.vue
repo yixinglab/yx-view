@@ -44,17 +44,19 @@
             },
             onClick: Function
         },
-        mounted() {
-            this.drawInit(); // initial draw
-        },
         watch: {  
-            'displayStatus': 'onChange',
+            'dataItems': 'onChange',
+            'displayStatus': 'onDisplay',
         },
         methods: {
-            drawInit () {
-                yxbubbleChart_2017_786 = new bubbleChart("#bubbleanimatechart_20170920", this.dataItemsHeader, this.dataItems, this.background, parseInt(this.width), parseInt(this.height));
+            init: function() {
+                if(!yxbubbleChart_2017_786) yxbubbleChart_2017_786 = new bubbleChart("#bubbleanimatechart_20170920", this.dataItemsHeader, this.dataItems, this.background, parseInt(this.width), parseInt(this.height));
+            },
+            onDisplay: function() {
+                yxbubbleChart_2017_786.displayStatus(this.displayStatus);
             },
             onChange: function() {
+                this.init();
                 yxbubbleChart_2017_786.displayStatus(this.displayStatus);
             }
         }
@@ -62,8 +64,8 @@
 </script>
 
 <style>
-    .textvalue2 {
-        fill: #000000;
+    .year {
+        fill: #FFFFFF;
     }
     .textvalue2:hover {
         fill: lighten(#ffffff, 30%);

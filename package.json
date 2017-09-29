@@ -1,6 +1,6 @@
 {
   "name": "yx-view",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "title": "yxview",
   "description": "A high quality  UI components Library with Vue.js 2.0",
   "homepage": "http://www.12306.cn",
@@ -25,7 +25,7 @@
     "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
     "dist:prod": "webpack --config build/webpack.dist.prod.config.js",
     "dist:locale": "webpack --config build/webpack.dist.locale.config.js",
-    "dist": "npm run dist:style && npm run dist:dev && npm run dist:prod && npm run dist:locale",
+    "dist": "npm run dist:dev && npm run dist:prod",
     "lint": "eslint --fix --ext .js,.vue src",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run lint && npm run unit",
@@ -41,14 +41,7 @@
     "url": "https://github.com/yixinglab/yx-view/issues"
   },
   "dependencies": {
-    "async-validator": "^1.7.1",
-    "axios": "^0.16.2",
-    "core-js": "^2.5.0",
-    "d3": "^4.10.2",
-    "deepmerge": "^1.5.0",
-    "element-ui": "^1.4.4",
-    "popper.js": "^0.6.4",
-    "tinycolor2": "^1.4.1"
+    "d3": "^4.10.2"
   },
   "peerDependencies": {
     "vue": "^2.4.1"

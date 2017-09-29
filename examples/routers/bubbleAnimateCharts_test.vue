@@ -6,8 +6,9 @@
         :dataItems="dataItems"
         :dataItemsHeader = "dataItemsHeader"
         :displayStatus="displayStatus"
-        width="800px" 
+        width="1000px" 
         height="600px"
+        background="#333333"
         :onClick = "onClick"> </YxBubbleAnimateCharts> 
     </div>
 </template>
@@ -54,6 +55,7 @@
                         aarr.push(p);
                     }
                 });
+                debugger;
                 return aarr;
             },
             onReplace1: function() {

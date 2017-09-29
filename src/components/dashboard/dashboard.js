@@ -310,6 +310,7 @@ export default function (id, callback) {
                 .style('stroke',_colorBorder)
                 // .style('stroke-opacity', 0.5)
                 // .style('stroke-width', 1)
+                // .style('box-shadow', '10px 10px 5px #000000')                
                 .style('fill',_color);
         }
             
@@ -336,6 +337,9 @@ export default function (id, callback) {
                 .style('stroke', _colorBorder)
                 // .style('stroke-opacity', 0.5)
                 // .style('stroke-width', 1)
+                // .style('-moz-box-shadow', '10px 10px 5px #000000')
+                // .style('-webkit-box-shadow', '10px 10px 5px #000000')
+                // .style('box-shadow', '10px 10px 5px #000000')
                 .style('fill', _color);
         }
 

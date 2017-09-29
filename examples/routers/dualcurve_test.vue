@@ -1,7 +1,7 @@
 <template>
     <div>
-     <div><el-button type="danger" size="small" @click="onReplace1"><i class="el-icon-document el-icon--left"></i>替换数据1</el-button>
-        <el-button type="danger" size="small" @click="onReplace2"><i class="el-icon-document el-icon--left"></i>替换数据2</el-button></div>
+        <button type="button" @click="onReplace1">替换数据1</button>
+        <button type="button" @click="onReplace2">替换数据2</button>
         <YxDualcurve :dataModal1="dataItems1" :dataModal2="dataItems2" :onClick="onClick" width="814px" height="500px" background="#FFFFFF"> </YxDualcurve>   
     </div>
 </template>

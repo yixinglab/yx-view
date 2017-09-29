@@ -6,11 +6,23 @@
 import * as d3 from 'd3';
 
 export default function (divid,headerData, rawData, background='#FFFFFF', _width=500, _height=400) {
+    var svg = null;
+    
     var width = _width;
     var height = _height;
-  
+
     var center = { x: width / 2, y: height / 2 };
-  
+    
+    d3.select(divid).select('svg').remove();
+
+    // Create a SVG element inside the provided selector
+    // with desired size.
+    svg = d3.select(divid)
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height).style('background-color', background);
+
+    
     var yearCenters = {};
     var yearsTitleX = {};
     // var yearCenters = {
@@ -18,12 +30,13 @@ export default function (divid,headerData, rawData, background='#FFFFFF', _width
     //     2009: { x: width / 2, y: height / 2 },
     //     2010: { x: 2 * width / 3, y: height / 2 }
     // };;
-    var indexV = 1;
+    var indexV = 0;
     headerData.forEach(function(d){
-        yearCenters[d.name] = { x: width * indexV / headerData.length, y: height / 2 };
-        yearsTitleX[d.name] = width * indexV / headerData.length;
+        var stepwidth = width / headerData.length;
+        yearCenters[d.id] = { x: stepwidth * indexV + stepwidth / 2, y: height / 2 };
+        yearsTitleX[d.name] = stepwidth * indexV + stepwidth / 2;
         
-        indexV += 1;
+        indexV = indexV + 1;
     });
   
     // var yearsTitleX = {
@@ -33,10 +46,11 @@ export default function (divid,headerData, rawData, background='#FFFFFF', _width
     // };
   
     // strength to apply to the position forces
-    var forceStrength = 0.05;
+    var forceStrength = 0.015;
   
-    var svg = null;
+  
     var bubbles = null;
+    var bubblesText = null;
     var nodes = [];
   
 
@@ -74,7 +88,7 @@ export default function (divid,headerData, rawData, background='#FFFFFF', _width
         // @v4: new flattened scale names.
         var radiusScale = d3.scalePow()
         .exponent(0.5)
-        .range([20, 45])
+        .range([5, _width / 40])
         .domain([0, maxAmount]);
 
         // Use map() to convert raw data into node data.
@@ -85,7 +99,6 @@ export default function (divid,headerData, rawData, background='#FFFFFF', _width
                 radius: radiusScale(+d.id),
                 value: +d.id,
                 name: d.name,
-                org: d.organization,
                 group: d.parrentname,
                 year: d.parrentid,
                 x: Math.random() * width,
@@ -109,6 +122,10 @@ export default function (divid,headerData, rawData, background='#FFFFFF', _width
         bubbles
         .attr('cx', function (d) { return d.x; })
         .attr('cy', function (d) { return d.y; });
+
+        bubblesText
+        .attr('x', function (d) { return d.x; })
+        .attr('y', function (d) { return d.y + 5; });
     }
   
     /*
@@ -116,6 +133,7 @@ export default function (divid,headerData, rawData, background='#FFFFFF', _width
      * x force.
      */
     function nodeYearPos(d) {
+        // console.log(yearCenters[d.year]);
         return yearCenters[d.year].x;
     }
   
@@ -129,15 +147,14 @@ export default function (divid,headerData, rawData, background='#FFFFFF', _width
     function groupBubbles() {
         hideYearTitles();
     
-        // @v4 Reset the 'x' force to draw the bubbles to the center.
         simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
     
-        // @v4 We can reset the alpha value and restart the simulation
         simulation.alpha(1).restart();
     }
   
     function splitBubbles() {
         showYearTitles();
+        // debugger;
     
         simulation.force('x', d3.forceX().strength(forceStrength).x(nodeYearPos));
     
@@ -172,48 +189,49 @@ export default function (divid,headerData, rawData, background='#FFFFFF', _width
     
     nodes = createNodes(rawData);
 
-    d3.select(divid)
-    .style('width', width)
-    .style('height', height)
-    .style('background-color', background);
-    // Create a SVG element inside the provided selector
-    // with desired size.
-    svg = d3.select(divid)
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height);
+    
 
     // Bind nodes data to what will become DOM elements to represent them.
     bubbles = svg.selectAll('.bubble')
-    .data(nodes, function (d) { return d.id; });
+    .data(nodes);
 
-    // Create new circle elements each with class `bubble`.
-    // There will be one circle.bubble for each object in the nodes array.
-    // Initially, their radius (r attribute) will be 0.
-    // @v4 Selections are immutable, so lets capture the
-    //  enter selection to apply our transtition to below.
+
     var bubblesE = bubbles.enter().append('circle')
     .classed('bubble', true)
     .attr('r', 0)
     .attr('fill', function (d) { return fillColor(d.group); })
     .attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
     .attr('stroke-width', 2);
-    // .on('mouseover', showDetail)
-    // .on('mouseout', hideDetail);
 
-    // @v4 Merge the original empty selection and the enter selection
+
+    // Merge the original empty selection and the enter selection
     bubbles = bubbles.merge(bubblesE);
 
     // Fancy transition to make bubbles appear, ending with the
     // correct radius
     bubbles.transition()
-    .duration(2000)
-    .attr('r', function (d) { 
-        // console.log(d.radius);
-        return d.radius; });
+    .duration(1000)
+    .attr('r', function (d) { return d.radius; });
 
-    // Set the simulation's nodes to our newly created nodes array.
-    // @v4 Once we set the nodes, the simulation will start running automatically!
+
+
+    // Bind nodes data to what will become DOM elements to represent them.
+    bubblesText = svg.selectAll('.bubbletext')
+    .data(nodes);
+
+
+    var bText = bubblesText.enter().append('text')
+    .classed('bubbletext', true)
+    .attr('text-anchor', 'middle')    
+    .text(function (d) { return d.name; })
+    .attr('x', 0)
+    .attr('y', 0);
+
+
+    // Merge the original empty selection and the enter selection
+    bubblesText = bubblesText.merge(bText);
+
+
     simulation.nodes(nodes);
 
     // Set initial layout to single group.

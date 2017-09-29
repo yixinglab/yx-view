@@ -1,32 +1,23 @@
-import YxUpload from './components/upload/upload.vue';
 import YxDashboard from './components/dashboard/dashboard.vue';
+import YxDashboard2 from './components/dashboard/dashboard2.vue';
 import YxDualcurve from './components/dualcurve/dualcurve.vue';
 import YxBarTwoDirection from './components/barCharts/barTwoDirection.vue';
 import YxBubbleAnimateCharts from './components/bubbleCharts/bubbleAnimateCharts.vue';
 
 
-import locale from './locale';
-
 const yixinglab = {
-    YxUpload,
     YxDashboard,
+    YxDashboard2,
     YxDualcurve,
     YxBarTwoDirection,
-    YxBubbleAnimateCharts
+    YxBubbleAnimateCharts,
+    // YxDataTable
 };
 
-const install = function (Vue, opts = {}) {
-    locale.use(opts.locale);
-    locale.i18n(opts.i18n);
-
+const install = function (Vue) {
     Object.keys(yixinglab).forEach((key) => {
         Vue.component(key, yixinglab[key]);
     });
-
-    // Vue.prototype.$Loading = LoadingBar;
-    // Vue.prototype.$Message = Message;
-    // Vue.prototype.$Modal = Modal;
-    // Vue.prototype.$Notice = Notice;
 };
 
 // auto install
