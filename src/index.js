@@ -1,5 +1,5 @@
 import YxDashboard from './components/dashboard/dashboard.vue';
-import YxDashboard2 from './components/dashboard/dashboard2.vue';
+import YxMoneyFlowCharts from './components/dashboard/dashboard2.vue';
 import YxDualcurve from './components/dualcurve/dualcurve.vue';
 import YxBarTwoDirection from './components/barCharts/barTwoDirection.vue';
 import YxBubbleAnimateCharts from './components/bubbleCharts/bubbleAnimateCharts.vue';
@@ -7,7 +7,7 @@ import YxBubbleAnimateCharts from './components/bubbleCharts/bubbleAnimateCharts
 
 const yixinglab = {
     YxDashboard,
-    YxDashboard2,
+    YxMoneyFlowCharts,
     YxDualcurve,
     YxBarTwoDirection,
     YxBubbleAnimateCharts,

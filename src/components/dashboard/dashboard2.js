@@ -56,7 +56,7 @@ export default function (id, callback) {
         _angleStart = angle;
     }
     function setConfig(conf) {
-        if (_conf === conf) return;
+        // if (_conf === conf) return;
         _conf = conf;
         init();
     }

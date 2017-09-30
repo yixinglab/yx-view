@@ -1,6 +1,8 @@
 <template>
     <div>
-        <YxDashboard2 :dataItems="dataItems" :onClick="onClick" width="414px" height="400px" :background="background" :startAngle="startAngle"> </YxDashboard2>
+        <button type="button" @click="onReplace1">替换数据1</button>
+        <button type="button" @click="onReplace2">替换数据2</button>
+        <YxMoneyFlowCharts :dataItems="dataItems" :onClick="onClick" width="414px" height="400px" :background="background" :startAngle="startAngle"> </YxMoneyFlowCharts>
     </div>
 </template>
 <script>
@@ -20,9 +22,9 @@
                 background: "#FFFFFF",
                 startAngle: -60,
                 dataItems: [
-                    {"tagid":-1,"tagname":"盈余","amount":53675100,
+                    {"tagid":-1,"tagname":"盈余","amount":'+53,675,100',
                     "fontsizetitle":12,"fontsize":20,"fontcolortitle":"#DCDCDC","fontcolor":"#FFFFFF" ,"fill":"#FC6164","stroke":"#DCDCDC"},
-                    {"tagid":1,"tagname":"资产","amount":53675100,"amount2":0, "icon":_icon6 ,
+                    {"tagid":1,"tagname":"资产","amount":'+53,675,100',"amount2":0, "icon":_icon6 ,
                     "fontsizetitle":12,"fontsize":14,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":3,"tagname":"客户","amount":4313596.98,"amount2":-16687852.34, "icon":_icon2,
                     "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
@@ -30,6 +32,14 @@
                    "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":5,"tagname":"员工","amount":0,"amount2":-19720379.67 , "icon":_icon1,
                     "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
+                    {"tagid":2,"tagname":"政府","amount":0,"amount2":-1195368.9 , "icon":_icon5,
+                   "fontsizetitle":12,"fontsize":18,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"}
+                ],
+                dataItems2: [
+                    {"tagid":-1,"tagname":"盈余","amount":53675100,
+                    "fontsizetitle":12,"fontsize":20,"fontcolortitle":"#DCDCDC","fontcolor":"#FFFFFF" ,"fill":"#FC6164","stroke":"#DCDCDC"},
+                    {"tagid":1,"tagname":"资产","amount":53675100,"amount2":0, "icon":_icon6 ,
+                    "fontsizetitle":12,"fontsize":14,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":2,"tagname":"政府","amount":0,"amount2":-1195368.9 , "icon":_icon5,
                    "fontsizetitle":12,"fontsize":18,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"}
                 ]
@@ -75,20 +85,12 @@
                 return _tagsValue;
             },
             onReplace1: function() {
-                let _data = [];
-                for (var i = 0; i < dashboaddata.length; i++) {
-                    if (i % 2 === 1) continue;
-                    if (i > 1500) continue;
-                    _data.push(dashboaddata[i]);
-                }
-                let _tags = this.getTags(_data);
-                this.dataItems = _tags;
+                this.dataItems[0].amount = 102348;
+                this.dataItems[0].fill = '#FF00FF';
             },
             onReplace2: function() {
-                // this.dataItems = dashboaddata;
-                let _tags = this.getTags(dashboaddata);
-                this.dataItems = _tags;
-                console.log(JSON.stringify(this.dataItems));
+                this.dataItems = this.dataItems2;
+
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id='yx_dashboard_2458973_9' :style="'width:'+ width +';height:' + height"></div>
+        <div id='yx_dashboard_2458973_10' :style="'width:'+ width +';height:' + height"></div>
     </div>
 </template>
 <script>
@@ -38,10 +38,19 @@
         },
         watch: {  
             'dataItems': 'onChange',
+            'dataItems': {
+                handler: function (newVal) {
+                    // this.dataItems = newVal;
+                    // console.log(newVal);
+                    // console.log(this.dataItems);
+                    this.onChange();
+                },
+                deep: true
+            }
         },
         methods: {
             init: function() {
-                _yxDashBoad = new YXDashBoad('#yx_dashboard_2458973_9', this.onClick);
+                _yxDashBoad = new YXDashBoad('#yx_dashboard_2458973_10', this.onClick);
                 _yxDashBoad.setBackground(this.background);
                 _yxDashBoad.setStartAngle(this.startAngle);
                 _yxDashBoad.setConfig(this.dataItems);
