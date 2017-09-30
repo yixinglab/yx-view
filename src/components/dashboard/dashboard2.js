@@ -201,6 +201,7 @@ export default function (id, callback) {
         var _tags = getConfig();
         
         var _len = _tags.length;
+        if (_len === 0) return;
         var _angle = 0;
         ctreateCenter(_radius, _tags[0]);
         // debugger;

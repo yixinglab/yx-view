@@ -7,7 +7,7 @@
     import YXDashBoad from './dashboard2.js';
     let _yxDashBoad = null;
     export default {
-        name: 'YxDashboard',
+        name: 'YxMoneyFlowCharts',
         props: {
             dataItems: {
                 type: Array,
