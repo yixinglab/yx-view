@@ -29,7 +29,7 @@ export default function (id, callback) {
     _radius = _radius / 5.2;
     var _radiusLeaf = _radius * 0.6;
     
-    var _unit = 10000; // 单位 万
+    // var _unit = 10000; // 单位 万
     
     var selectCircle = null;
     var selectCircleShow = false;
@@ -44,6 +44,8 @@ export default function (id, callback) {
         })
         .attr('width', _width)
         .attr('height', _height);
+    
+    initFilter();
     var svgContainer = svgDashboad.append('g')
         .attr('transform', 'translate(' + _centerX + ',' + _centerY + ')');
 
@@ -87,6 +89,7 @@ export default function (id, callback) {
         .attr('r', 0)
         .style('stroke',tag.stroke)            
         .style('fill',tag.fill)
+        .attr('filter', 'url(#f1)')
         .transition()
         .duration(_durationTime)
         .attr('r', _r);
@@ -122,6 +125,7 @@ export default function (id, callback) {
         .attr('cx',0)
         .attr('cy',0)
         .attr('r', r)
+        .attr('filter', 'url(#f1)')
         .style('stroke',tag.stroke)            
         .style('fill',tag.fill);
 
@@ -177,6 +181,56 @@ export default function (id, callback) {
             .attr('text-anchor', 'middle')                
             .text(tag.amount>0?'+'+tag.amount:tag.amount);
         }
+    }
+    function initFilter() {
+        /**<defs>
+    <filter id="f1" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
+      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+    </filter>
+  </defs> */
+        var blurSize = 1;
+        var _filter = svgDashboad.append('defs').append('filter')
+            .attr('id', 'f1')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', '150%')
+            .attr('height', '150%')
+            ;
+
+        _filter.append('feOffset')
+        .attr('result', 'offset3')
+        .attr('in', 'SourceAlpha')
+        .attr('dx', blurSize)
+        .attr('dy', blurSize)
+        ;
+
+        _filter.append('feGaussianBlur')
+        .attr('result', 'blur3')
+        .attr('in', 'offOut')
+        .attr('stdDeviation', blurSize )
+        ;
+
+        /**<feColorMatrix in="SourceAlpha" type="matrix"
+  values="-1 0 0 0 1, 0 -1 0 0 1, 0 0 -1 0 1, 0 0 0 1 0"
+  result="matrix"/> */
+
+        // _filter.append('feColorMatrix')
+        // .attr('result', 'matrix')
+        // .attr('in', 'SourceGraphic')
+        // .attr('type', 'matrix')
+        // .attr('values', '-1 0 0 0 1, 0 -1 0 0 1, 0 0 -1 0 1, 0 0 0 1 0')
+        // ;
+
+        _filter.append('feBlend')
+        .attr('in', 'SourceGraphic')
+        .attr('in2', 'blur3')
+        // x="-10" width="160"
+        // .attr('x', -1000)
+        // .attr('width', 100)
+        .attr('mode', 'screen')
+        ;
     }
     // 初始化
     function init() {
