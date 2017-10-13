@@ -25,6 +25,26 @@
                 type: [String, Number],
                 default: "rgba(51,51,51,0.0)"
             },
+            axisBottomClass: {
+                type: [String, Number],
+                default: "axisExample"
+            },
+            axisLeftClass: {
+                type: [String, Number],
+                default: "axisExample"
+            },
+            axisRightClass: {
+                type: [String, Number],
+                default: "axisExample"
+            },
+            axisLeftContentClass: {
+                type: [String, Number],
+                default: "axisExample1"
+            },
+            axisRightContentClass: {
+                type: [String, Number],
+                default: "axisExample1"
+            },
             width: {
                 type: [String, Number],
                 default: "420px"
@@ -44,13 +64,13 @@
         },
         methods: {
             init: function() {
-                // debugger;
-                // console.log('3333');
                 _yxDualcurveChart = new YXDualcurveChart('#yx_dashboard_2458973_10');
                 _yxDualcurveChart.setBackground(this.background);
+                _yxDualcurveChart.setAxisClass(this.axisBottomClass,this.axisLeftClass,this.axisRightClass,this.axisLeftContentClass,this.axisRightContentClass);
                 _yxDualcurveChart.setConfig(this.dataModal1,this.dataModal2);
             },
             onChange: function() {
+                _yxDualcurveChart.setAxisClass(this.axisBottomClass,this.axisLeftClass,this.axisRightClass,this.axisLeftContentClass,this.axisRightContentClass);
                 _yxDualcurveChart.setConfig(this.dataModal1,this.dataModal2);
             }
         }
@@ -58,20 +78,30 @@
 </script>
 <style> /* set the CSS */
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 2px;
-}
-
 .grid line {
-  stroke: lightgrey;
-  stroke-opacity: 0.7;
-  shape-rendering: crispEdges;
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
 }
 
 .grid path {
-  stroke-width: 0;
+    stroke-width: 0;
+}
+.axisExample1{
+    stroke: red;
+    fill: none;
+    stroke-width: 3;
+}
+.axisExample line{
+  stroke: red;
 }
 
+.axisExample path{
+   stroke: red;
+}
+
+.axisExample text{
+  fill: red;
+  font: bold 1em "宋体",Arial,Times;
+}  
 </style>

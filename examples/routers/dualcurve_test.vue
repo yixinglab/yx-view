@@ -2,7 +2,13 @@
     <div>
         <button type="button" @click="onReplace1">替换数据1</button>
         <button type="button" @click="onReplace2">替换数据2</button>
-        <YxDualcurve :dataModal1="dataItems1" :dataModal2="dataItems2" :onClick="onClick" width="414px" height="400px" background="#FFFFFF"> </YxDualcurve>   
+        <YxDualcurve :dataModal1="dataItems1" :dataModal2="dataItems2" 
+        axisBottomClass="axisBottomClass"
+        axisLeftClass="axisLeftClass"
+        axisRightClass="axisRightClass"
+        axisLeftContentClass="axisLeftContentClass"
+        axisRightContentClass="axisRightContentClass"
+        :onClick="onClick" width="414px" height="400px" background="#FFFFFF"> </YxDualcurve>   
     </div>
 </template>
 <script>
@@ -11,7 +17,8 @@
         data() {
             return {
                 dataItems1: [],
-                dataItems2: []
+                dataItems2: [],
+
             };
         },
         methods: {
@@ -45,3 +52,67 @@
         }
     }
 </script>
+<style> /* set the CSS */
+
+.axisLeftContentClass{
+    stroke: darkred;
+    fill: none;
+    stroke-width: 2;
+}
+.axisLeftContentClass_L{
+    fill: darkred;
+    font-size: 12px;
+    font-family: '宋体';
+}
+.axisRightContentClass{
+    stroke: lightsteelblue;
+    fill: none;
+    stroke-width: 2;
+}
+.axisRightContentClass_L{
+    fill: lightsteelblue;
+    font-size: 12px;
+    font-family: '宋体';
+}
+
+
+.axisBottomClass line{
+  stroke: lightgray;
+}
+
+.axisBottomClass path{
+   stroke: lightgray;
+}
+
+.axisBottomClass text{
+  fill: lightgray;
+  font: bold 1em "宋体",Arial,Times;
+}
+
+
+.axisLeftClass line{
+  stroke: darkred;
+}
+
+.axisLeftClass path{
+   stroke: darkred;
+}
+
+.axisLeftClass text{
+  fill: darkred;
+  font: bold 1em "宋体",Arial,Times;
+}  
+
+.axisRightClass line{
+  stroke: lightsteelblue;
+}
+
+.axisRightClass path{
+   stroke: lightsteelblue;
+}
+
+.axisRightClass text{
+  fill: lightsteelblue;
+  font: bold 1em "宋体",Arial,Times;
+}
+</style>

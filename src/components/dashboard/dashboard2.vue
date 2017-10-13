@@ -31,6 +31,10 @@
                 type: [String, Number],
                 default: "500px"
             },
+            showshadow: {
+                type: [Boolean, String, Number],
+                default: false
+            },
             onClick: Function
         },
         mounted() {
@@ -53,11 +57,13 @@
                 _yxDashBoad = new YXDashBoad('#yx_dashboard_2458973_10', this.onClick);
                 _yxDashBoad.setBackground(this.background);
                 _yxDashBoad.setStartAngle(this.startAngle);
+                _yxDashBoad.showShadow(this.showshadow==='true');
                 _yxDashBoad.setConfig(this.dataItems);
             },
             onChange: function() {
                 // debugger;
                 _yxDashBoad.setStartAngle(this.startAngle);
+                _yxDashBoad.showShadow(this.showshadow==='true');
                 _yxDashBoad.setConfig(this.dataItems);
             }
         }

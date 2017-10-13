@@ -7,6 +7,7 @@ import * as d3 from 'd3';
 export default function (id) {
     this.setConfig = setConfig;
     this.setBackground = setBackground;
+    this.setAxisClass = setAxisClass;
 
     // debugger;
     var objId = id;
@@ -15,12 +16,15 @@ export default function (id) {
     var _axisX = null;
     var _axisYs = null;
     var _axisYs_Content = null;
-    var _legends = [];
+    // var _legends = [];
 
     var _y0Name = '';
     var _y1Name = '';
-    var _y0Color = 'steelblue';
-    var _y1Color = 'red';  
+    var _axisBottom = '';
+    var _axisLeft = '';
+    var _axisRight = '';
+    var _axisLeftContent = '';
+    var _axisRightContent = '';
     var _fontSize = 12;
 
     var _conf0 = null;
@@ -55,9 +59,13 @@ export default function (id) {
 
         if (_conf0.length > 0) {
             _y0Name = _conf0[0].name;
+        } else {
+            return;
         }
         if (_conf1.length > 0) {
             _y1Name = _conf1[0].name;
+        } else {
+            return;
         }
         // console.log(_inited);
         if(_inited) reinit();
@@ -66,6 +74,13 @@ export default function (id) {
             init();
         }
     }
+    function setAxisClass (axisX,axisLeft,axisRight,axisLeftContent,axisRightContent) {
+        _axisBottom = axisX;
+        _axisLeft = axisLeft;
+        _axisRight = axisRight;
+        _axisLeftContent = axisLeftContent;
+        _axisRightContent = axisRightContent;
+    }
     function clear() {
         svgDashboad.selectAll('*').remove();
         svgContainer = svgDashboad.append('g')
@@ -73,7 +88,7 @@ export default function (id) {
         _axisX = null;
         _axisYs = null;
         _axisYs_Content = null;
-        _legends = null;
+        // _legends = null;
     
         _tooltipWidow = null;
         _legendWindow = null;    
@@ -127,141 +142,141 @@ export default function (id) {
         });
         return [minV, minV1];
     }
-    function onShow(legend){
-        var _fill = legend.selectAll('circle').attr('fill');
-        //必须显示一条
-        var _existsNum = 0;
-        var _index = -1;
-        var lindex = 0;
-        _legends.forEach(function(leg){
-            var _fillLeg = leg.selectAll('circle').attr('fill');
-            if (_fillLeg !== 'none') {
-                _existsNum += 1;
-            }
-            if (leg === legend) {
-                _index = lindex;
-                var _axisY = _axisYs[_index];
-                var _axisY_Content = _axisYs_Content[_index];
-                if (_fill === 'none') {
-                    _axisY.style('display','none');
-                    _axisY_Content.style('display','none');
-                } else {
-                    _axisY.style('display','');
-                    _axisY_Content.style('display','');
-                }
-            }
-            lindex++;
-        });
+    // function onShow(legend){
+    //     var _fill = legend.selectAll('circle').attr('fill');
+    //     //必须显示一条
+    //     var _existsNum = 0;
+    //     var _index = -1;
+    //     var lindex = 0;
+    //     _legends.forEach(function(leg){
+    //         var _fillLeg = leg.selectAll('circle').attr('fill');
+    //         if (_fillLeg !== 'none') {
+    //             _existsNum += 1;
+    //         }
+    //         if (leg === legend) {
+    //             _index = lindex;
+    //             var _axisY = _axisYs[_index];
+    //             var _axisY_Content = _axisYs_Content[_index];
+    //             if (_fill === 'none') {
+    //                 _axisY.style('display','none');
+    //                 _axisY_Content.style('display','none');
+    //             } else {
+    //                 _axisY.style('display','');
+    //                 _axisY_Content.style('display','');
+    //             }
+    //         }
+    //         lindex++;
+    //     });
         
-        if (_existsNum === 0 && _index >= 0) {
-            _index = 0;
-            _legends.forEach(function(leg){
-                if (leg !== legend) {
-                    var _axisY = _axisYs[_index];
-                    var _axisY_Content = _axisYs_Content[_index];
-                    _axisY.style('display','');
-                    _axisY_Content.style('display','');
-                    leg.selectAll('circle').attr('fill', leg.selectAll('circle').attr('stroke'));
-                    return;
-                }
-                _index++;
-            });
-        }
-    }
-    function LegendClass() {
-        // debugger;
-        var _r = 6;
-        var _left = 20 + _margin.right;
-        var _top = 0;
-        var _dispatch = d3.dispatch('legendClick', 'legendMouseover', 'legendMouseout');
-        _dispatch.on('legendClick', function(d) {
-            // debugger;
-            var _fill = d.selectAll('circle').attr('fill');
-            if (_fill === 'none') {
-                _fill = d.selectAll('circle').attr('stroke');
-                d.selectAll('circle').attr('fill', _fill);
-            }
-            else {
-                d.selectAll('circle').attr('fill', 'none');
-            }
-            onShow(d);
-        });
-        _dispatch.on('legendMouseover', function(d) {
-            d.selectAll('circle').style('cursor', 'pointer');
-            d.selectAll('text').style('cursor', 'pointer');
-        });
-        _dispatch.on('legendMouseout', function(d) {
-            d.selectAll('circle').style('cursor', '');
-            d.selectAll('text').style('cursor', '');
-        });
+    //     if (_existsNum === 0 && _index >= 0) {
+    //         _index = 0;
+    //         _legends.forEach(function(leg){
+    //             if (leg !== legend) {
+    //                 var _axisY = _axisYs[_index];
+    //                 var _axisY_Content = _axisYs_Content[_index];
+    //                 _axisY.style('display','');
+    //                 _axisY_Content.style('display','');
+    //                 leg.selectAll('circle').attr('fill', leg.selectAll('circle').attr('stroke'));
+    //                 return;
+    //             }
+    //             _index++;
+    //         });
+    //     }
+    // }
+    // function LegendClass() {
+    //     // debugger;
+    //     var _r = 6;
+    //     var _left = 20 + _margin.right;
+    //     var _top = 0;
+    //     var _dispatch = d3.dispatch('legendClick', 'legendMouseover', 'legendMouseout');
+    //     _dispatch.on('legendClick', function(d) {
+    //         // debugger;
+    //         var _fill = d.selectAll('circle').attr('fill');
+    //         if (_fill === 'none') {
+    //             _fill = d.selectAll('circle').attr('stroke');
+    //             d.selectAll('circle').attr('fill', _fill);
+    //         }
+    //         else {
+    //             d.selectAll('circle').attr('fill', 'none');
+    //         }
+    //         onShow(d);
+    //     });
+    //     _dispatch.on('legendMouseover', function(d) {
+    //         d.selectAll('circle').style('cursor', 'pointer');
+    //         d.selectAll('text').style('cursor', 'pointer');
+    //     });
+    //     _dispatch.on('legendMouseout', function(d) {
+    //         d.selectAll('circle').style('cursor', '');
+    //         d.selectAll('text').style('cursor', '');
+    //     });
         
 
-        // dispatch 事件
-        var _legend0 = svgContainer.append('g');
-        var _legend1 = svgContainer.append('g');
-        _legends = [];
-        _legends.push(_legend0);
-        _legends.push(_legend1);
-        _legends.forEach(function(leg){
-            leg.on('click', function() {
-                _dispatch.call('legendClick', this,leg);
-            })
-            .on('mouseover', function() {
-                _dispatch.call('legendMouseover',this,leg);
-            })
-            .on('mouseout', function() {
-                _dispatch.call('legendMouseout',this,leg);
-            });
-        });
+    //     // dispatch 事件
+    //     var _legend0 = svgContainer.append('g');
+    //     var _legend1 = svgContainer.append('g');
+    //     _legends = [];
+    //     _legends.push(_legend0);
+    //     _legends.push(_legend1);
+    //     _legends.forEach(function(leg){
+    //         leg.on('click', function() {
+    //             _dispatch.call('legendClick', this,leg);
+    //         })
+    //         .on('mouseover', function() {
+    //             _dispatch.call('legendMouseover',this,leg);
+    //         })
+    //         .on('mouseout', function() {
+    //             _dispatch.call('legendMouseout',this,leg);
+    //         });
+    //     });
 
-        var _legend0Circle = _legend0.append('circle')
-        .attr('fill', _y0Color)            
-        .attr('stroke', _y0Color)            
-        .attr('stroke-width', 2)            
-        .attr('r', _r)
-        .attr('cx', _width - (_r+2) * 4 - _margin.right - _fontSize * (_y1Name.length + _y0Name.length) - _left)
-        .attr('cy',_top - 4);
-        var _legend0Text = _legend0.append('text')
-        .text(_y0Name)
-        .attr('fill', _y0Color)            
-        .attr('font-size', _fontSize)
-        .attr('font-family','simsun')
-        .attr('font-weight','bold')        
-        .attr('dy', _top)
-        .attr('dx',  _width - (_r+2) * 3 -_margin.right - _fontSize * (_y1Name.length + _y0Name.length) - _left);
+    //     var _legend0Circle = _legend0.append('circle')
+    //     .attr('fill', _axisLeft)            
+    //     .attr('stroke', _axisLeft)            
+    //     .attr('stroke-width', 2)            
+    //     .attr('r', _r)
+    //     .attr('cx', _width - (_r+2) * 4 - _margin.right - _fontSize * (_y1Name.length + _y0Name.length) - _left)
+    //     .attr('cy',_top - 4);
+    //     var _legend0Text = _legend0.append('text')
+    //     .text(_y0Name)
+    //     .attr('fill', _axisLeft)            
+    //     .attr('font-size', _fontSize)
+    //     .attr('font-family','simsun')
+    //     .attr('font-weight','bold')        
+    //     .attr('dy', _top)
+    //     .attr('dx',  _width - (_r+2) * 3 -_margin.right - _fontSize * (_y1Name.length + _y0Name.length) - _left);
 
-        var _legend1Circle = _legend1.append('circle')
-        .attr('fill', _y1Color)
-        .attr('stroke', _y1Color)            
-        .attr('stroke-width', 2)      
-        .attr('r', _r)
-        .attr('cx', _width - _r - 2 - _margin.right - _fontSize * _y1Name.length - _left)
-        .attr('cy',_top - 4);
-        var _legend1Text = _legend1.append('text')
-        .text(_y1Name)
-        .attr('fill', _y1Color)            
-        .attr('font-size', _fontSize)
-        .attr('font-family','simsun')
-        .attr('font-weight','bold')        
-        .attr('dy', _top)
-        .attr('dx',  _width - _margin.right - _fontSize * _y1Name.length - _left);
+    //     var _legend1Circle = _legend1.append('circle')
+    //     .attr('fill', _axisRight)
+    //     .attr('stroke', _axisRight)            
+    //     .attr('stroke-width', 2)      
+    //     .attr('r', _r)
+    //     .attr('cx', _width - _r - 2 - _margin.right - _fontSize * _y1Name.length - _left)
+    //     .attr('cy',_top - 4);
+    //     var _legend1Text = _legend1.append('text')
+    //     .text(_y1Name)
+    //     .attr('fill', _axisRight)            
+    //     .attr('font-size', _fontSize)
+    //     .attr('font-family','simsun')
+    //     .attr('font-weight','bold')        
+    //     .attr('dy', _top)
+    //     .attr('dx',  _width - _margin.right - _fontSize * _y1Name.length - _left);
 
-        this.update = update;
-        function update() {
-            // debugger;
-            _legend0Circle.attr('cx', _width - (_r+2) * 4 - _margin.right - _fontSize * (_y1Name.length + _y0Name.length) - _left);
+    //     this.update = update;
+    //     function update() {
+    //         // debugger;
+    //         _legend0Circle.attr('cx', _width - (_r+2) * 4 - _margin.right - _fontSize * (_y1Name.length + _y0Name.length) - _left);
             
-            _legend0Text.text(_y0Name)
-            .attr('dx', _width - (_r+2) * 3 -_margin.right - _fontSize * (_y1Name.length + _y0Name.length) - _left);
+    //         _legend0Text.text(_y0Name)
+    //         .attr('dx', _width - (_r+2) * 3 -_margin.right - _fontSize * (_y1Name.length + _y0Name.length) - _left);
     
-            _legend1Circle
-            .attr('cx', _width - _r - 2 - _margin.right - _fontSize * _y1Name.length - _left);
+    //         _legend1Circle
+    //         .attr('cx', _width - _r - 2 - _margin.right - _fontSize * _y1Name.length - _left);
             
-            _legend1Text
-            .text(_y1Name)
-            .attr('dx',  _width - _margin.right - _fontSize * _y1Name.length - _left);
-        }
-    }
+    //         _legend1Text
+    //         .text(_y1Name)
+    //         .attr('dx',  _width - _margin.right - _fontSize * _y1Name.length - _left);
+    //     }
+    // }
     function TootipClass() {
         var _marginTootip = 12;
         var _tooltipWidth = 160;
@@ -298,49 +313,37 @@ export default function (id) {
         svgLegendContainer.append('rect')
         .attr('width', _fontsize)
         .attr('height', _fontsize)
-        .attr('transform', 'translate(' +  _rectX + ',' + _rectY + ')')
+        .attr('transform', 'translate(' +  _rectX + ',' + (_rectY + 2) + ')')
         .attr('r', _r)
-        .style('fill', _y0Color)
-        .style('stroke','#808080');
+        .attr('class', _axisLeftContent + '_L');
         var _tooltipItemName0 = svgLegendContainer.append('text')
         .attr('x', _r + _marginTootip + _rectX)
         .attr('y', _fontsize + _rectY)
-        .attr('fill', _fontcolor)  
-        .attr('font-size',_fontsize)  
-        .attr('font-family','simsun')  
-        .attr('text-anchor', 'left');
+        .attr('text-anchor', 'left')
+        .attr('class', _axisLeftContent + '_L');
         var _tooltipItemValue0 = svgLegendContainer.append('text')
         .attr('x', _r + _marginTootip + _rectX + 80)
         .attr('y', _fontsize  + _rectY)
-        .attr('fill', _fontcolor)  
-        .attr('font-size',_fontsize)  
-        .attr('font-family','simsun')  
-        .attr('font-weight','bold')
-        .attr('text-anchor', 'right');
+        .attr('text-anchor', 'right')
+        .attr('class', _axisLeftContent + '_L');
 
         _rectY = _marginTootip + _fontsize + _fontsize * 2;
         svgLegendContainer.append('rect')
         .attr('width', _fontsize)
         .attr('height', _fontsize)
-        .attr('transform', 'translate(' +  _rectX + ',' + _rectY + ')')
+        .attr('transform', 'translate(' +  _rectX + ',' + (_rectY + 2) + ')')
         .attr('r', _r)
-        .style('fill', _y1Color)
-        .style('stroke','#808080');
+        .attr('class', _axisRightContent + '_L');
         var _tooltipItemName1 = svgLegendContainer.append('text')
         .attr('x', _r + _marginTootip + _rectX)
         .attr('y', _fontsize + _rectY)
-        .attr('fill', _fontcolor)  
-        .attr('font-size',_fontsize)  
-        .attr('font-family','simsun')  
-        .attr('text-anchor', 'left');
+        .attr('text-anchor', 'left')
+        .attr('class', _axisRightContent + '_L');
         var _tooltipItemValue1 = svgLegendContainer.append('text')
         .attr('x', _r + _marginTootip + _rectX + 80)
         .attr('y', _fontsize  + _rectY)
-        .attr('fill', _fontcolor)
-        .attr('font-size',_fontsize)
-        .attr('font-family','simsun')
-        .attr('font-weight','bold')
-        .attr('text-anchor', 'right');
+        .attr('text-anchor', 'right')
+        .attr('class', _axisRightContent + '_L');
 
         function formatPercentageValue(type ,value) {
             if (type === 'percentage'){
@@ -421,6 +424,7 @@ export default function (id) {
     function initGridlines(x,y,width,height) {
         if (_initedgridlines) return;
         _initedgridlines = true; 
+        // debugger;
         //定义网格线
         svgContainer.append('g')			
         .attr('class', 'grid')
@@ -444,7 +448,7 @@ export default function (id) {
         _dataJson0 = getFilterData(_conf0, _y0Name);
         _dataJson1 = getFilterData(_conf1, _y1Name);
         if (_dataJson0.length === 0 && _dataJson1.length === 0) return;
-        
+        // debugger;
         if (_legendWindow) _legendWindow.update();
         // debugger;
         var width = _width - _margin.left - _margin.right;
@@ -486,8 +490,9 @@ export default function (id) {
         
         y0.domain([0, maxvalue0]);
         y1.domain([0, maxvalue1]);    
-
-        //定义网格线
+// 
+        // debugger;
+        // 定义网格线
         initGridlines(x,y0,width,height);
 
         if(!_tooltipWidow) {
@@ -531,6 +536,7 @@ export default function (id) {
         // Add the X Axis
         if (!_axisX) {
             _axisX = svgContainer.append('g')
+            .attr('class', _axisBottom)
             .attr('transform', 'translate(0,' + height + ')');
         }
         
@@ -546,11 +552,13 @@ export default function (id) {
         if (!_axisYs_Content) _axisYs_Content = [];
         var _axis = null;
         // Add the valueline0 path.
+        // debugger;
         if (_axisYs_Content.length === 0) {
             _axis = svgContainer.append('path')
-            .attr('fill', 'none')
-            .style('stroke', _y0Color)
-            .style('stroke-width', 3);
+            // .attr('fill', 'none')
+            // .style('stroke', 'red')
+            // .style('stroke-width', 3);
+            .attr('class', _axisLeftContent);
             _axisYs_Content.push(_axis);
         } 
         else _axis = _axisYs_Content[0];
@@ -562,9 +570,11 @@ export default function (id) {
         // Add the valueline1 path.
         if (_axisYs_Content.length === 1) {
             _axis = svgContainer.append('path')
-            .attr('fill', 'none')
-            .style('stroke', _y1Color)        
-            .style('stroke-width', 3);
+            // .attr('fill', 'none')
+            // .style('stroke', 'blue')
+            // .style('stroke-width', 3);
+            .attr('class', _axisRightContent);
+            
             _axisYs_Content.push(_axis);
         } 
         else _axis = _axisYs_Content[1];
@@ -574,29 +584,34 @@ export default function (id) {
         // Add the Y0 Axis
         if (_axisYs.length === 0) {
             _axis = svgContainer.append('g')
-            // .attr('fill', _y0Color)
-            .attr('stroke', _y0Color);
+            .attr('class', _axisLeft)
+            // .attr('fill', _axisLeft)
+            // .attr('stroke', _axisLeft)
+            ;
             
             _axisYs.push(_axis);
         }
         else _axis = _axisYs[0];
-        var _axisLeft = d3.axisLeft().scale(y0);
-        _axisLeft.ticks(5);
-        _axis.call(_axisLeft);
+        var __axisLeft = d3.axisLeft().scale(y0);
+        __axisLeft.ticks(5);
+        _axis.call(__axisLeft);
 
         // Add the Y1 Axis
         if (_axisYs.length === 1) {
             _axis = svgContainer.append('g')
             .attr('transform', 'translate( ' + width + ', 0 )')            
-            // .attr('fill', _y1Color)
-            .attr('stroke', _y1Color) ;
+            // .attr('fill', _axisRight)
+            // .attr('stroke', _axisRight) 
+            .attr('class', _axisRight)
+            
+            ;
             
             _axisYs.push(_axis);
         }
         else _axis = _axisYs[1];
 
-        var _axisRight = d3.axisRight().scale(y1);
-        _axisRight.ticks(5);
-        _axis.call(_axisRight);
+        var __axisRight = d3.axisRight().scale(y1);
+        __axisRight.ticks(5);
+        _axis.call(__axisRight);
     }
 }

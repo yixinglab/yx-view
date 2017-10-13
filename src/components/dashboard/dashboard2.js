@@ -10,6 +10,7 @@ export default function (id, callback) {
     this.setConfig = setConfig;
     this.setBackground = setBackground;
     this.setStartAngle = setStartAngle;
+    this.showShadow = showShadow;
 
     var objId = id;
     // debugger;
@@ -33,6 +34,7 @@ export default function (id, callback) {
     
     var selectCircle = null;
     var selectCircleShow = false;
+    var isshowshadow = false;
 
     var svgDashboad = d3.select(objId).append('svg')
         .on('click', function(){
@@ -62,6 +64,9 @@ export default function (id, callback) {
         _conf = conf;
         init();
     }
+    function showShadow(isShow) {
+        isshowshadow = isShow;
+    }
     function getConfig() {
         return _conf;
     }
@@ -89,10 +94,11 @@ export default function (id, callback) {
         .attr('r', 0)
         .style('stroke',tag.stroke)            
         .style('fill',tag.fill)
-        .attr('filter', 'url(#f1)')
+        .attr('filter', isshowshadow ?'url(#f1)' : '')
         .transition()
         .duration(_durationTime)
         .attr('r', _r);
+
 
         _g.append('text')
         .attr('y', - tag.fontsizetitle)
@@ -125,7 +131,7 @@ export default function (id, callback) {
         .attr('cx',0)
         .attr('cy',0)
         .attr('r', r)
-        .attr('filter', 'url(#f1)')
+        .attr('filter', isshowshadow ?'url(#f1)' : '')
         .style('stroke',tag.stroke)            
         .style('fill',tag.fill);
 
