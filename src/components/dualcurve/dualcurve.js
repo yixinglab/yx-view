@@ -43,6 +43,7 @@ export default function (id) {
     var _tooltipWidow = null;
     var _legendWindow = null;
     var _inited = false;
+    var _initedgridlines = false;
     
     function setBackground(color =  '#333333') {
         d3.select(objId).style('background-color', color);
@@ -84,13 +85,13 @@ export default function (id) {
                 // debugger;
                 if (d.name === _name) {
                     var b = new Object();
-                    // "id": 5,
-                    // "name": "投诉率",
-                    // "type": "percentage",
-                    // "value": 0.0000,
-                    // "date": "2014-09-14",
-                    // "kpiGroup": "primary",
-                    // "value": 30
+                    // 'id': 5,
+                    // 'name': '投诉率',
+                    // 'type': 'percentage',
+                    // 'value': 0.0000,
+                    // 'date': '2014-09-14',
+                    // 'kpiGroup': 'primary',
+                    // 'value': 30
                     b.name = d.name;
                     if(d.type) b.type = d.type;
                     b.value = d.value;
@@ -394,8 +395,49 @@ export default function (id) {
     function init() {
         clear();
         // debugger;        
-        if (!_legendWindow) _legendWindow = new LegendClass();
+        // if (!_legendWindow) _legendWindow = new LegendClass();
         reinit();
+    }
+    function formartMaxValue(maxvalue) {
+        for (var _v = 0.01; _v < 1000000000000000; _v *= 10) {
+            if (maxvalue < _v) {
+                maxvalue = _v;
+                break;
+            }
+        }
+        return maxvalue;
+    }
+    // gridlines in x axis function
+    function make_x_gridlines(x) {		
+        return d3.axisBottom(x)
+            .ticks(5);
+    }
+
+    // gridlines in y axis function
+    function make_y_gridlines(y) {		
+        return d3.axisLeft(y)
+            .ticks(5);
+    }
+    function initGridlines(x,y,width,height) {
+        if (_initedgridlines) return;
+        _initedgridlines = true; 
+        //定义网格线
+        svgContainer.append('g')			
+        .attr('class', 'grid')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(make_x_gridlines(x)
+            .tickSize(-height)
+            .tickFormat('')
+        );
+
+        // add the Y gridlines
+        svgContainer.append('g')			
+        .attr('class', 'grid')
+        .call(make_y_gridlines(y)
+            .tickSize(-width)
+            .tickFormat('')
+        );
+
     }
     function reinit() {
         // debugger;
@@ -403,7 +445,7 @@ export default function (id) {
         _dataJson1 = getFilterData(_conf1, _y1Name);
         if (_dataJson0.length === 0 && _dataJson1.length === 0) return;
         
-        _legendWindow.update();
+        if (_legendWindow) _legendWindow.update();
         // debugger;
         var width = _width - _margin.left - _margin.right;
         var height = _height - _margin.top - _margin.bottom;
@@ -438,8 +480,15 @@ export default function (id) {
 
         // Scale the range of the _dataJson0
         x.domain(d3.extent(_dataJson0, function(d) { return d.date; }));
-        y0.domain([0, d3.max(_dataJson0, function(d) {return Math.max(d.value);})]);
-        y1.domain([0, d3.max(_dataJson1, function(d) {return Math.max(d.value); })]);        
+
+        var maxvalue0 = formartMaxValue(d3.max(_dataJson0, function(d) {return Math.max(d.value);}));
+        var maxvalue1 = formartMaxValue(d3.max(_dataJson1, function(d) {return Math.max(d.value);}));
+        
+        y0.domain([0, maxvalue0]);
+        y1.domain([0, maxvalue1]);    
+
+        //定义网格线
+        initGridlines(x,y0,width,height);
 
         if(!_tooltipWidow) {
             _tooltipWidow = new TootipClass();
@@ -475,6 +524,8 @@ export default function (id) {
             });
         }
 
+
+        
         // console.log('log   1');
         // debugger;
         // Add the X Axis
@@ -485,7 +536,7 @@ export default function (id) {
         
         // _axisX.selectAll('*').remove();
         var xAxis = d3.axisBottom().scale(x);
-        xAxis.ticks(10)
+        xAxis.ticks(2)
        .tickFormat(d3.timeFormat('%Y-%m-%d'));
         _axisX.call(xAxis);
 
@@ -499,7 +550,7 @@ export default function (id) {
             _axis = svgContainer.append('path')
             .attr('fill', 'none')
             .style('stroke', _y0Color)
-            .style('stroke-width', 2);
+            .style('stroke-width', 3);
             _axisYs_Content.push(_axis);
         } 
         else _axis = _axisYs_Content[0];
@@ -513,7 +564,7 @@ export default function (id) {
             _axis = svgContainer.append('path')
             .attr('fill', 'none')
             .style('stroke', _y1Color)        
-            .style('stroke-width', 2);
+            .style('stroke-width', 3);
             _axisYs_Content.push(_axis);
         } 
         else _axis = _axisYs_Content[1];
@@ -523,25 +574,29 @@ export default function (id) {
         // Add the Y0 Axis
         if (_axisYs.length === 0) {
             _axis = svgContainer.append('g')
-            .attr('fill', _y0Color)
+            // .attr('fill', _y0Color)
             .attr('stroke', _y0Color);
             
             _axisYs.push(_axis);
         }
         else _axis = _axisYs[0];
-        _axis.call(d3.axisLeft(y0));
+        var _axisLeft = d3.axisLeft().scale(y0);
+        _axisLeft.ticks(5);
+        _axis.call(_axisLeft);
 
         // Add the Y1 Axis
         if (_axisYs.length === 1) {
             _axis = svgContainer.append('g')
             .attr('transform', 'translate( ' + width + ', 0 )')            
-            .attr('fill', _y1Color)
+            // .attr('fill', _y1Color)
             .attr('stroke', _y1Color) ;
             
             _axisYs.push(_axis);
         }
         else _axis = _axisYs[1];
 
-        _axis.call(d3.axisRight(y1));
+        var _axisRight = d3.axisRight().scale(y1);
+        _axisRight.ticks(5);
+        _axis.call(_axisRight);
     }
 }

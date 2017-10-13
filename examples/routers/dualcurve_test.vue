@@ -2,7 +2,7 @@
     <div>
         <button type="button" @click="onReplace1">替换数据1</button>
         <button type="button" @click="onReplace2">替换数据2</button>
-        <YxDualcurve :dataModal1="dataItems1" :dataModal2="dataItems2" :onClick="onClick" width="814px" height="500px" background="#FFFFFF"> </YxDualcurve>   
+        <YxDualcurve :dataModal1="dataItems1" :dataModal2="dataItems2" :onClick="onClick" width="414px" height="400px" background="#FFFFFF"> </YxDualcurve>   
     </div>
 </template>
 <script>
