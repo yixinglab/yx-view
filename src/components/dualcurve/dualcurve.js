@@ -282,7 +282,7 @@ export default function (id) {
     // }
     function TootipClass() {
         var _marginTootip = 12;
-        var _tooltipWidth = 160;
+        var _tooltipWidth = 170;
         var _tooltipHeight = 70;
         var _fontsize = _fontSize;
         var _fontcolor = '#000000';
@@ -353,7 +353,13 @@ export default function (id) {
                 var _v = parseInt(value * 10000);
                 return _v / 100.0 + '%';
             }
-            return value;
+            if (parseFloat(value) > parseInt(value)) {
+                return parseInt(value * 100) / 100;
+            }
+            else {
+                return parseInt(value);
+            }
+            // return value;
         }
         this.update = update;
         this.show = show;
@@ -365,7 +371,7 @@ export default function (id) {
             if (_widthRect2 > _widthRect) _widthRect = _widthRect2;
             _tooltipWidth = _widthRect;
             
-            // _tooltipRectB.attr('width', _tooltipWidth);
+            // _tooltipRect.attr('width', _tooltipWidth);
 
             _tooltipTitle.text(_tagModal0.date.getFullYear()+'-' +(_tagModal0.date.getMonth() + 1)+'-' +_tagModal0.date.getDate());
             
@@ -522,6 +528,7 @@ export default function (id) {
         initGridlines(x,y0,width,height);
 
         if(!_tooltipWidow) {
+            // debugger;
             _tooltipDate = x;
             _tooltipWidow = new TootipClass();
             const gtootip = svgContainer.append('g');
