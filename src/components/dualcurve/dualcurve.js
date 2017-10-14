@@ -45,6 +45,9 @@ export default function (id) {
     .attr('transform', 'translate(' + _margin.left + ',' + _margin.top + ')');
 
     var _tooltipWidow = null;
+    var _tooltipRect = null;
+    var _tooltipLine = null;
+    var _tooltipDate = null;
     var _legendWindow = null;
     var _inited = false;
     var _initedgridlines = false;
@@ -290,7 +293,7 @@ export default function (id) {
         
         var _r = _fontsize / 1.75;
     
-        var _tooltipRectB = svgLegendContainer.append('rect')
+        svgLegendContainer.append('rect')
         .attr('width', _tooltipWidth)
         .attr('height', _tooltipHeight)
         .style('fill', '#FCFCFC')
@@ -362,7 +365,7 @@ export default function (id) {
             if (_widthRect2 > _widthRect) _widthRect = _widthRect2;
             _tooltipWidth = _widthRect;
             
-            _tooltipRectB.attr('width', _tooltipWidth);
+            // _tooltipRectB.attr('width', _tooltipWidth);
 
             _tooltipTitle.text(_tagModal0.date.getFullYear()+'-' +(_tagModal0.date.getMonth() + 1)+'-' +_tagModal0.date.getDate());
             
@@ -443,6 +446,29 @@ export default function (id) {
         );
 
     }
+    function touchmove() {
+        var _mousepoint = d3.mouse(_tooltipRect.node());
+        var _mouseX = _mousepoint[0];
+        var _mouseY = _mousepoint[1];
+
+        _tooltipLine
+        .attr('stroke', 'grey')
+        .attr('d', 'M' + _mouseX + ',' + 0 + 'L' + _mouseX + ',' + (_height - _margin.top - _margin.bottom) );
+
+        const _date = _tooltipDate.invert(_mouseX);
+        if (_date) {
+            var _modal = find(_date);
+            // console.log(_date);
+            // console.log(_modal.date);
+            // console.log(d3.select(objId).style('left'));
+            _tooltipWidow.update(_modal);
+            _tooltipWidow.show(true,_mouseX,_mouseY);
+        } 
+    }
+    function touchend() {
+        if (_tooltipWidow) _tooltipWidow.show(false);
+        if (_tooltipLine) _tooltipLine.attr('stroke', 'none');
+    }
     function reinit() {
         // debugger;
         _dataJson0 = getFilterData(_conf0, _y0Name);
@@ -496,64 +522,22 @@ export default function (id) {
         initGridlines(x,y0,width,height);
 
         if(!_tooltipWidow) {
+            _tooltipDate = x;
             _tooltipWidow = new TootipClass();
             const gtootip = svgContainer.append('g');
-            const tipBox = gtootip.append('rect');
-            const tooltipLine = gtootip.append('path');
-            tipBox.attr('width', width)
+            _tooltipRect = gtootip.append('rect');
+            _tooltipLine = gtootip.append('path');
+            _tooltipRect.attr('width', width)
             .attr('height', height)
             .attr('opacity', 0)
             
-            .on('mousemove', function() {
-                var _mousepoint = d3.mouse(tipBox.node());
-                var _mouseX = _mousepoint[0];
-                var _mouseY = _mousepoint[1];
-
-                tooltipLine
-                .attr('stroke', 'grey')
-                .attr('d', 'M' + _mouseX + ',' + 0 + 'L' + _mouseX + ',' + height );
-
-                const _date = x.invert(_mouseX);
-                if (_date) {
-                    var _modal = find(_date);
-                    // console.log(_date);
-                    // console.log(_modal.date);
-                    // console.log(d3.select(objId).style('left'));
-                    _tooltipWidow.update(_modal);
-                    _tooltipWidow.show(true,_mouseX,_mouseY);
-                } 
-            })
-            .on('mouseout', function () {
-                if (_tooltipWidow) _tooltipWidow.show(false);
-                if (tooltipLine) tooltipLine.attr('stroke', 'none');
-            })
-            .on('touchmove', function() {
-                var _mousepoint = d3.mouse(tipBox.node());
-                var _mouseX = _mousepoint[0];
-                var _mouseY = _mousepoint[1];
-
-                tooltipLine
-                .attr('stroke', 'grey')
-                .attr('d', 'M' + _mouseX + ',' + 0 + 'L' + _mouseX + ',' + height );
-
-                const _date = x.invert(_mouseX);
-                if (_date) {
-                    var _modal = find(_date);
-                    // console.log(_date);
-                    // console.log(_modal.date);
-                    // console.log(d3.select(objId).style('left'));
-                    _tooltipWidow.update(_modal);
-                    _tooltipWidow.show(true,_mouseX,_mouseY);
-                } 
-            })
-            .on('touchend', function () {
-                if (_tooltipWidow) _tooltipWidow.show(false);
-                if (tooltipLine) tooltipLine.attr('stroke', 'none');
-            });
+            .on('mousemove', touchmove)
+            .on('mouseout', touchend)
+            .on('touchstart', touchmove)
+            .on('touchmove', touchmove)
+            .on('touchend', touchend);
         }
 
-
-        
         // console.log('log   1');
         // debugger;
         // Add the X Axis
