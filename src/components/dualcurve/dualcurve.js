@@ -32,7 +32,7 @@ export default function (id) {
     var _dataJson0 = null;
     var _dataJson1 = null;
     
-    var _margin = {top: 20, right: 50, bottom: 30, left: 50};
+    var _margin = {top: 20, right: 45, bottom: 30, left: 45};
     
     var _width = parseFloat(d3.select(objId).style('width'));
     var _height = parseFloat(d3.select(objId).style('height'));
@@ -524,6 +524,29 @@ export default function (id) {
                 } 
             })
             .on('mouseout', function () {
+                if (_tooltipWidow) _tooltipWidow.show(false);
+                if (tooltipLine) tooltipLine.attr('stroke', 'none');
+            })
+            .on('touchmove', function() {
+                var _mousepoint = d3.mouse(tipBox.node());
+                var _mouseX = _mousepoint[0];
+                var _mouseY = _mousepoint[1];
+
+                tooltipLine
+                .attr('stroke', 'grey')
+                .attr('d', 'M' + _mouseX + ',' + 0 + 'L' + _mouseX + ',' + height );
+
+                const _date = x.invert(_mouseX);
+                if (_date) {
+                    var _modal = find(_date);
+                    // console.log(_date);
+                    // console.log(_modal.date);
+                    // console.log(d3.select(objId).style('left'));
+                    _tooltipWidow.update(_modal);
+                    _tooltipWidow.show(true,_mouseX,_mouseY);
+                } 
+            })
+            .on('touchend', function () {
                 if (_tooltipWidow) _tooltipWidow.show(false);
                 if (tooltipLine) tooltipLine.attr('stroke', 'none');
             });
