@@ -24,13 +24,13 @@
                 dataItems: [
                     {"tagid":-1,"tagname":"盈余","amount":'+53,675,100',
                     "fontsizetitle":12,"fontsize":20,"fontcolortitle":"#DCDCDC","fontcolor":"#FFFFFF" ,"fill":"#FC6164","stroke":"#DCDCDC"},
-                    {"tagid":1,"tagname":"资产","amount":'+53,675,100',"amount2":0, "icon":_icon6 ,
+                    {"tagid":1,"tagname":"资产","amount":0,"amount2":0, "icon":_icon6 ,
                     "fontsizetitle":12,"fontsize":14,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
-                    {"tagid":3,"tagname":"客户","amount":4313596.98,"amount2":-16687852.34, "icon":_icon2,
+                    {"tagid":3,"tagname":"客户","amount":4313596.98,"amount2":-16687852.34, 
                     "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":4,"tagname":"伙伴","amount":675317.87,"amount2":-1266052.29, "icon":_icon3,
                    "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
-                    {"tagid":5,"tagname":"员工","amount":0,"amount2":-19720379.67 , "icon":_icon1,
+                    {"tagid":5,"tagname":"员工","amount":0,"amount2":-19720379.67 , 
                     "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":2,"tagname":"政府","amount":0,"amount2":-1195368.9 , "icon":_icon5,
                    "fontsizetitle":12,"fontsize":18,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"}
@@ -48,41 +48,6 @@
         methods: {
             onClick: function(tag) {
                 console.log(tag);
-            },
-            // 获得一级标签
-            getTags: function(_tagsConf) {
-                var _tagsValue = [];
-            
-                for (var _it = 0; _it < _tagsConf.length; _it++) {
-                    var _tag = _tagsConf[_it];
-                    var _exists = false;
-                    for( var _iv = 0; _iv < _tagsValue.length; _iv++) {
-                        var _tagMark = _tagsValue[_iv];
-                        if (_tag.tagid === _tagMark.tagid) {
-                            if (_tag.amount > 0) {
-                                _tagMark.amount += _tag.amount;
-                            } else {
-                                _tagMark.amount2 += _tag.amount;
-                            }
-                            _exists = true;
-                            break;
-                        }
-                    }
-                    if (!_exists) {
-                        // debugger;
-                        var _amount = parseFloat(_tag.amount);
-                        var _datatag = {
-                            'tagid': _tag.tagid,
-                            'tagname': _tag.tagname? _tag.tagname:'其他'+_tag.tagid,
-                            // 收入
-                            'amount':_amount > 0? _amount : 0,
-                            // 支出
-                            'amount2':_amount < 0? _amount : 0
-                        };
-                        _tagsValue.push(_datatag);
-                    }
-                }
-                return _tagsValue;
             },
             onReplace1: function() {
                 this.dataItems[0].amount = 102348;

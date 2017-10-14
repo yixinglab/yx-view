@@ -154,7 +154,7 @@ export default function (id, callback) {
         }
        
         _g.append('text')
-        .attr('x', 6)
+        .attr('x', tag.icon? 6 : 0)
         .attr('y', -tag.fontsizetitle-2)
         .attr('fill',tag.fontcolortitle)  
         .attr('font-size',tag.fontsizetitle)  
@@ -163,19 +163,27 @@ export default function (id, callback) {
         .text(tag.tagname);
 
         var _y = 0;
-        if (tag.amount2 && tag.amount2!==0){
-            _y = tag.fontsize2 / 2;
-            _g.append('text')
-            .attr('y', _y)
-            .attr('fill',tag.fontcolor2)  
-            .attr('font-size',tag.fontsize2)  
-            .attr('font-family','simsun')  
-            .attr('font-weight','bold')
-            .attr('text-anchor', 'middle')                
-            .text(tag.amount2>0?'+'+tag.amount2:tag.amount2);
+        var _amount2 = 0;
+        if (tag.amount2) {
+            _amount2 = parseFloat( tag.amount2);
+            if (_amount2!==0){
+                _y = tag.fontsize2 / 2;
+                _g.append('text')
+                .attr('y', _y)
+                .attr('fill',tag.fontcolor2)  
+                .attr('font-size',tag.fontsize2)  
+                .attr('font-family','simsun')  
+                .attr('font-weight','bold')
+                .attr('text-anchor', 'middle')                
+                .text(_amount2>0?'+'+tag.amount2:tag.amount2);
+            }
         }
-        
-        if (tag.amount && tag.amount!==0){
+        // debugger;
+        var _amount = 0;
+        if (tag.amount) {
+            _amount = parseFloat(tag.amount);
+        }
+        if (_amount!==0 || _amount2 === 0){
             if (_y === 0) _y = tag.fontsize / 2;
             else _y += tag.fontsize + 2;
             _g.append('text')
@@ -185,7 +193,10 @@ export default function (id, callback) {
             .attr('font-family','simsun')  
             .attr('font-weight','bold')
             .attr('text-anchor', 'middle')                
-            .text(tag.amount>0?'+'+tag.amount:tag.amount);
+            .text(_amount>0?'+'+tag.amount:tag.amount);
+        }
+        if (_amount === null && _amount2 === null) {
+
         }
     }
     function initFilter() {
@@ -196,7 +207,7 @@ export default function (id, callback) {
       <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
     </filter>
   </defs> */
-        var blurSize = 1;
+        var blurSize = 10;
         var _filter = svgDashboad.append('defs').append('filter')
             .attr('id', 'f1')
             .attr('x', 0)
@@ -247,10 +258,11 @@ export default function (id, callback) {
     function select(x, y , r ,show = true) {
         if (!selectCircle) {
             selectCircle = svgContainer.append('circle')
-            .style('opacity',0.2)
+            .attr('filter', 'url(#f1)')            
+            .style('opacity',0.1)
             .style('fill','#FFA500');
         }
-        selectCircle.attr('r', r + r / 6);
+        selectCircle.attr('r', r + 10);
 
         if (show) selectCircle.style('display','');
         else selectCircle.style('display','none');
