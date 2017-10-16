@@ -116,7 +116,7 @@ export default function (id, callback) {
         .attr('font-family','simsun')  
         .attr('font-weight','bold')
         .attr('text-anchor', 'middle')                
-        .text(tag.amount>0?'+'+tag.amount:tag.amount);
+        .text(tag.amount?tag.amount:0);
 
         _g.on('click', function() {
             selectCircleShow = true;
@@ -175,7 +175,7 @@ export default function (id, callback) {
                 .attr('font-family','simsun')  
                 .attr('font-weight','bold')
                 .attr('text-anchor', 'middle')                
-                .text(_amount2!==0?'+'+tag.amount2:tag.amount2);
+                .text(_amount2!==0?tag.amount2:_amount2);
             }
         }
         // debugger;
@@ -193,7 +193,7 @@ export default function (id, callback) {
             .attr('font-family','simsun')  
             .attr('font-weight','bold')
             .attr('text-anchor', 'middle')                
-            .text(_amount!==0?'+'+tag.amount:_amount);
+            .text(_amount!==0?tag.amount:_amount);
         }
     }
     function initFilter() {

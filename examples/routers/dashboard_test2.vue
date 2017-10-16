@@ -22,7 +22,7 @@
                 background: "#FFFFFF",
                 startAngle: -60,
                 dataItems: [
-                    {"tagid":-1,"tagname":"盈余","amount":'+53,675,100',
+                    {"tagid":-1,"tagname":"盈余","amount":24232,
                     "fontsizetitle":12,"fontsize":20,"fontcolortitle":"#DCDCDC","fontcolor":"#FFFFFF" ,"fill":"#FC6164","stroke":"#DCDCDC"},
                     {"tagid":1,"tagname":"资产","amount":'',"amount2":'', "icon":_icon6 ,
                     "fontsizetitle":12,"fontsize":14,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
