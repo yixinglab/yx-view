@@ -24,7 +24,7 @@
                 dataItems: [
                     {"tagid":-1,"tagname":"盈余","amount":'+53,675,100',
                     "fontsizetitle":12,"fontsize":20,"fontcolortitle":"#DCDCDC","fontcolor":"#FFFFFF" ,"fill":"#FC6164","stroke":"#DCDCDC"},
-                    {"tagid":1,"tagname":"资产","amount":0,"amount2":0, "icon":_icon6 ,
+                    {"tagid":1,"tagname":"资产","amount":'',"amount2":'', "icon":_icon6 ,
                     "fontsizetitle":12,"fontsize":14,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":3,"tagname":"客户","amount":4313596.98,"amount2":-16687852.34, 
                     "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},

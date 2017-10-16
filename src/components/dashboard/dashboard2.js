@@ -161,7 +161,7 @@ export default function (id, callback) {
         .attr('font-family','simsun')  
         .attr('text-anchor', 'middle')                
         .text(tag.tagname);
-
+        // debugger;
         var _y = 0;
         var _amount2 = 0;
         if (tag.amount2) {
@@ -175,7 +175,7 @@ export default function (id, callback) {
                 .attr('font-family','simsun')  
                 .attr('font-weight','bold')
                 .attr('text-anchor', 'middle')                
-                .text(_amount2>0?'+'+tag.amount2:tag.amount2);
+                .text(_amount2!==0?'+'+tag.amount2:tag.amount2);
             }
         }
         // debugger;
@@ -193,10 +193,7 @@ export default function (id, callback) {
             .attr('font-family','simsun')  
             .attr('font-weight','bold')
             .attr('text-anchor', 'middle')                
-            .text(_amount>0?'+'+tag.amount:tag.amount);
-        }
-        if (_amount === null && _amount2 === null) {
-
+            .text(_amount!==0?'+'+tag.amount:_amount);
         }
     }
     function initFilter() {
