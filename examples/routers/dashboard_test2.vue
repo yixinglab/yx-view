@@ -24,11 +24,11 @@
                 dataItems: [
                     {"tagid":-1,"tagname":"盈余","amount":24232,
                     "fontsizetitle":12,"fontsize":20,"fontcolortitle":"#DCDCDC","fontcolor":"#FFFFFF" ,"fill":"#FC6164","stroke":"#DCDCDC"},
-                    {"tagid":1,"tagname":"资产","amount":'',"amount2":'', "icon":_icon6 ,
+                    {"tagid":1,"tagname":"资产", "icon":_icon6 ,
                     "fontsizetitle":12,"fontsize":14,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":3,"tagname":"客户","amount":4313596.98,"amount2":-16687852.34, 
                     "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
-                    {"tagid":4,"tagname":"伙伴","amount":675317.87,"amount2":-1266052.29, "icon":_icon3,
+                    {"tagid":4,"tagname":"伙伴","amount":78675317.87,"amount2":-1266052.29, "icon":_icon3,
                    "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":5,"tagname":"员工","amount":0,"amount2":-19720379.67 , 
                     "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},

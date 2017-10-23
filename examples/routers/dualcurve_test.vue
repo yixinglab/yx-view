@@ -27,8 +27,8 @@
             },
             filterData: function(name0) {
                 var arr = [];
-                if (dualcurvedata.driving) {
-                    dualcurvedata.driving.forEach(function(d){
+                if (dualcurvedata.data) {
+                    dualcurvedata.data.forEach(function(d){
                         // debugger;
                         if (d.name === name0) {
                             arr.push(d);
@@ -40,6 +40,7 @@
             onReplace1: function() {
                 var _data1 = this.filterData( '低价值客户');
                 var _data2 = this.filterData('投诉率');
+                // debugger;
                 this.dataItems1 = _data1;
                 this.dataItems2 = _data2;
             },

@@ -163,29 +163,42 @@ export default function (id, callback) {
         .text(tag.tagname);
         // debugger;
         var _y = 0;
-        var _amount2 = 0;
-        if (tag.amount2) {
-            _amount2 = parseFloat( tag.amount2);
-            if (_amount2!==0){
-                _y = tag.fontsize2 / 2;
-                _g.append('text')
-                .attr('y', _y)
-                .attr('fill',tag.fontcolor2)  
-                .attr('font-size',tag.fontsize2)  
-                .attr('font-family','simsun')  
-                .attr('font-weight','bold')
-                .attr('text-anchor', 'middle')                
-                .text(_amount2!==0?tag.amount2:_amount2);
-            }
-        }
-        // debugger;
+        
         var _amount = 0;
+        var _amount2 = 0;
         if (tag.amount) {
             _amount = parseFloat(tag.amount);
         }
-        if (_amount!==0 || _amount2 === 0){
-            if (_y === 0) _y = tag.fontsize / 2;
-            else _y += tag.fontsize + 2;
+        if (tag.amount2) {
+            _amount2 = parseFloat(tag.amount2);
+        }
+        var maxIncome = false;
+        if (Math.abs(_amount) < Math.abs(_amount2)) {
+            maxIncome = true;
+        }
+        if (maxIncome) {
+            _y = tag.fontsize2 / 2;
+            _g.append('text')
+            .attr('y', _y)
+            .attr('fill',tag.fontcolor2)  
+            .attr('font-size',tag.fontsize2)  
+            .attr('font-family','simsun')  
+            .attr('font-weight','bold')
+            .attr('text-anchor', 'middle')                
+            .text(_amount2);
+            if (_amount !== 0) {
+                _y += (tag.fontsize + tag.fontsize2) / 2 + 2;
+                _g.append('text')
+                .attr('y', _y)
+                .attr('fill',tag.fontcolor)  
+                .attr('font-size',tag.fontsize)  
+                .attr('font-family','simsun')  
+                .attr('font-weight','bold')
+                .attr('text-anchor', 'middle')                
+                .text(_amount);
+            }
+        } else {
+            _y = tag.fontsize / 2 ;
             _g.append('text')
             .attr('y', _y)
             .attr('fill',tag.fontcolor)  
@@ -193,8 +206,48 @@ export default function (id, callback) {
             .attr('font-family','simsun')  
             .attr('font-weight','bold')
             .attr('text-anchor', 'middle')                
-            .text(_amount!==0?tag.amount:_amount);
+            .text(_amount);
+            if (_amount2 !== 0) {
+                _y += (tag.fontsize + tag.fontsize2) / 2 + 2;
+                _g.append('text')
+                .attr('y', _y)
+                .attr('fill',tag.fontcolor2)  
+                .attr('font-size',tag.fontsize2)
+                .attr('font-family','simsun')  
+                .attr('font-weight','bold')
+                .attr('text-anchor', 'middle')                
+                .text(_amount2);
+            }
         }
+
+
+        // if (tag.amount2) {
+        //     if (_amount2!==0){
+        //         _y = tag.fontsize2 / 2;
+        //         _g.append('text')
+        //         .attr('y', _y)
+        //         .attr('fill',tag.fontcolor2)  
+        //         .attr('font-size',tag.fontsize2)  
+        //         .attr('font-family','simsun')  
+        //         .attr('font-weight','bold')
+        //         .attr('text-anchor', 'middle')                
+        //         .text(_amount2!==0?tag.amount2:_amount2);
+        //     }
+        // }
+        // debugger;
+        
+        // if (_amount!==0 || _amount2 === 0){
+        //     if (_y === 0) _y = tag.fontsize / 2;
+        //     else _y += tag.fontsize + 2;
+        //     _g.append('text')
+        //     .attr('y', _y)
+        //     .attr('fill',tag.fontcolor)  
+        //     .attr('font-size',tag.fontsize)  
+        //     .attr('font-family','simsun')  
+        //     .attr('font-weight','bold')
+        //     .attr('text-anchor', 'middle')                
+        //     .text(_amount!==0?tag.amount:_amount);
+        // }
     }
     function initFilter() {
         /**<defs>
