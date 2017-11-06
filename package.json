@@ -1,9 +1,9 @@
 {
   "name": "yx-view",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "yxview",
   "description": "A high quality  UI components Library with Vue.js 2.0",
-  "homepage": "http://www.12306.cn",
+  "homepage": "https://github.com/yixinglab/yx-view/issues",
   "keywords": [
     "bamai",
     "yixing",
@@ -35,7 +35,7 @@
     "type": "git",
     "url": "git@github.com:yixinglab/yx-view.git"
   },
-  "author": "Aresn",
+  "author": "tiger",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/yixinglab/yx-view/issues"

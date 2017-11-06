@@ -99,12 +99,13 @@ export default function (id, callback) {
         .duration(_durationTime)
         .attr('r', _r);
 
+        // debugger;
 
         _g.append('text')
         .attr('y', - tag.fontsizetitle)
         .attr('fill',tag.fontcolortitle)  
         .attr('font-size',tag.fontsizetitle)  
-        .attr('font-family','simsun')  
+        .attr('font-family',tag.font ? tag.font : 'arial')  
         .attr('font-weight','bold')
         .attr('text-anchor', 'middle')                
         .text(tag.tagname);
@@ -113,7 +114,7 @@ export default function (id, callback) {
         .attr('y', tag.fontsize / 2)
         .attr('fill',tag.fontcolor)  
         .attr('font-size',tag.fontsize)  
-        .attr('font-family','simsun')  
+        .attr('font-family',tag.font? tag.font : 'arial')  
         .attr('font-weight','bold')
         .attr('text-anchor', 'middle')                
         .text(tag.amount?tag.amount:0);
@@ -158,7 +159,7 @@ export default function (id, callback) {
         .attr('y', -tag.fontsizetitle-2)
         .attr('fill',tag.fontcolortitle)  
         .attr('font-size',tag.fontsizetitle)  
-        .attr('font-family','simsun')  
+        .attr('font-family',tag.font? tag.font : 'arial')  
         .attr('text-anchor', 'middle')                
         .text(tag.tagname);
         // debugger;
@@ -192,7 +193,7 @@ export default function (id, callback) {
                 .attr('y', _y)
                 .attr('fill',tag.fontcolor)  
                 .attr('font-size',tag.fontsize)  
-                .attr('font-family','simsun')  
+                .attr('font-family',tag.font? tag.font : 'arial')  
                 .attr('font-weight','bold')
                 .attr('text-anchor', 'middle')                
                 .text(_amount);
@@ -203,7 +204,7 @@ export default function (id, callback) {
             .attr('y', _y)
             .attr('fill',tag.fontcolor)  
             .attr('font-size',tag.fontsize)  
-            .attr('font-family','simsun')  
+            .attr('font-family',tag.font? tag.font : 'arial')  
             .attr('font-weight','bold')
             .attr('text-anchor', 'middle')                
             .text(_amount);
@@ -213,7 +214,7 @@ export default function (id, callback) {
                 .attr('y', _y)
                 .attr('fill',tag.fontcolor2)  
                 .attr('font-size',tag.fontsize2)
-                .attr('font-family','simsun')  
+                .attr('font-family',tag.font? tag.font : 'arial')  
                 .attr('font-weight','bold')
                 .attr('text-anchor', 'middle')                
                 .text(_amount2);
