@@ -23,7 +23,7 @@
                 startAngle: -60,
                 dataItems: [
                     {"tagid":-1,"tagname":"盈余","amount":24232, "font":"YouYuan",
-                    "fontsizetitle":15,"fontsize":20,"fontcolortitle":"#DCDCDC","fontcolor":"#FFFFFF" ,"fill":"#FC6164","stroke":"#DCDCDC"},
+                    "fontsizetitle":15,"fontsize":20,"fontcolortitle":"#DCDCDC","fontcolor":"#FFFFFF" ,"fill":"#5F5F5F","stroke":"#DCDCDC"},
                     {"tagid":1,"tagname":"资产", "icon":_icon6 ,
                     "fontsizetitle":12,"fontsize":14,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":3,"tagname":"客户","amount":4313596.98,"amount2":-16687852.34, 
