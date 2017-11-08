@@ -88,13 +88,26 @@ export default function (id, callback) {
         .duration(_durationTime)
         .attr('r', _r * 2);
 
+        if (isshowshadow) {
+            _g.append('circle')
+            .attr('cx',-_r * 0.1)
+            .attr('cy',_r * 0.1)
+            .attr('r', 0)
+            .style('stroke',tag.stroke)            
+            .style('fill','pink')
+            .attr('filter', 'url(#f1)')
+            .transition()
+            .duration(_durationTime)
+            .attr('r', _r * 0.8);
+        }
+       
+
         _g.append('circle')
         .attr('cx',0)
         .attr('cy',0)
         .attr('r', 0)
         .style('stroke',tag.stroke)            
         .style('fill',tag.fill)
-        .attr('filter', isshowshadow ?'url(#f1)' : '')
         .transition()
         .duration(_durationTime)
         .attr('r', _r);
@@ -128,11 +141,24 @@ export default function (id, callback) {
     //画  圆形叶子
     function createLeaf(r, toX, toY, tag) {
         var _g = svgContainer.append('g');
+
+        if (isshowshadow) {
+            _g.append('circle')
+            .attr('cx',-r * 0.1)
+            .attr('cy',0)
+            .attr('r', 0)
+            .style('stroke',tag.stroke)            
+            .style('fill','#E5E5E5')
+            .attr('filter', 'url(#f1)')
+            .transition()
+            .duration(_durationTime)
+            .attr('r', r * 0.8);
+        }
+
         _g.append('circle')
         .attr('cx',0)
         .attr('cy',0)
         .attr('r', r)
-        .attr('filter', isshowshadow ?'url(#f1)' : '')
         .style('stroke',tag.stroke)            
         .style('fill',tag.fill);
 
@@ -263,15 +289,15 @@ export default function (id, callback) {
             .attr('id', 'f1')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('width', '150%')
-            .attr('height', '150%')
+            .attr('width', '200%')
+            .attr('height', '200%')
             ;
 
         _filter.append('feOffset')
         .attr('result', 'offset3')
-        .attr('in', 'SourceAlpha')
+        .attr('in', 'SourceGraphic') // SourceAlpha SourceGraphic
         .attr('dx', blurSize)
-        .attr('dy', blurSize)
+        .attr('dy', blurSize * 2)
         ;
 
         _filter.append('feGaussianBlur')
@@ -279,25 +305,10 @@ export default function (id, callback) {
         .attr('in', 'offOut')
         .attr('stdDeviation', blurSize )
         ;
-
-        /**<feColorMatrix in="SourceAlpha" type="matrix"
-  values="-1 0 0 0 1, 0 -1 0 0 1, 0 0 -1 0 1, 0 0 0 1 0"
-  result="matrix"/> */
-
-        // _filter.append('feColorMatrix')
-        // .attr('result', 'matrix')
-        // .attr('in', 'SourceGraphic')
-        // .attr('type', 'matrix')
-        // .attr('values', '-1 0 0 0 1, 0 -1 0 0 1, 0 0 -1 0 1, 0 0 0 1 0')
-        // ;
-
         _filter.append('feBlend')
         .attr('in', 'SourceGraphic')
-        .attr('in2', 'blur3')
-        // x="-10" width="160"
-        // .attr('x', -1000)
-        // .attr('width', 100)
-        .attr('mode', 'screen')
+        .attr('in2', 'blurOut')
+        .attr('mode', 'normal')
         ;
     }
     // 初始化

@@ -2,7 +2,7 @@
     <div>
         <button type="button" @click="onReplace1">替换数据1</button>
         <button type="button" @click="onReplace2">替换数据2</button>
-        <YxMoneyFlowCharts :dataItems="dataItems" :onClick="onClick" width="414px" showshadow="false" height="400px" :background="background" :startAngle="startAngle"> </YxMoneyFlowCharts>
+        <YxMoneyFlowCharts :dataItems="dataItems" :onClick="onClick" width="414px" showshadow="true" height="400px" :background="background" :startAngle="startAngle"> </YxMoneyFlowCharts>
     </div>
 </template>
 <script>
