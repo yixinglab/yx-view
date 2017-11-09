@@ -189,21 +189,30 @@ export default function (id, callback) {
         .attr('font-family',tag.font? tag.font : 'arial')  
         .attr('text-anchor', 'middle')                
         .text(tag.tagname);
-        // debugger;
+        
         var _y = 0;
         
         var _amount = 0;
         var _amount2 = 0;
         if (tag.amount) {
-            _amount = parseFloat(tag.amount);
+            // debugger;
+            _amount = parseFloat((tag.amount+'').replace(/,/g,''));
         }
         if (tag.amount2) {
-            _amount2 = parseFloat(tag.amount2);
+            _amount2 = parseFloat((tag.amount2+'').replace(/,/g,''));
         }
         var maxIncome = false;
         if (Math.abs(_amount) < Math.abs(_amount2)) {
             maxIncome = true;
         }
+        if (tag.amount) {
+            _amount = tag.amount;
+        } 
+        else _amount = '0';
+        if (tag.amount2) {
+            _amount2 = tag.amount2;
+        }
+        else _amount2 = '0';
         if (maxIncome) {
             _y = tag.fontsize2 / 2;
             _g.append('text')
@@ -214,7 +223,7 @@ export default function (id, callback) {
             .attr('font-weight','bold')
             .attr('text-anchor', 'middle')                
             .text(_amount2);
-            if (_amount !== 0) {
+            if (_amount !== '0') {
                 _y += (tag.fontsize + tag.fontsize2) / 2 + 2;
                 _g.append('text')
                 .attr('y', _y)
@@ -235,7 +244,7 @@ export default function (id, callback) {
             .attr('font-weight','bold')
             .attr('text-anchor', 'middle')                
             .text(_amount);
-            if (_amount2 !== 0) {
+            if (_amount2 !== '0') {
                 _y += (tag.fontsize + tag.fontsize2) / 2 + 2;
                 _g.append('text')
                 .attr('y', _y)
