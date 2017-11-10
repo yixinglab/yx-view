@@ -32,7 +32,7 @@
                    "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
                     {"tagid":5,"tagname":"员工","amount":0,"amount2":-19720379.67 , 
                     "fontsizetitle":12,"fontsize":12,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"},
-                    {"tagid":2,"tagname":"政府","amount":0,"amount2":-1195368.9 , "icon":_icon5,
+                    {"tagid":2,"tagname":"政府","amount":"0.0","amount2":"0.0000" , "icon":_icon5,
                    "fontsizetitle":12,"fontsize":18,"fontsize2":12,"fontcolortitle":"#DCDCDC","fontcolor":"#FC6164","fontcolor2":"#808080","fill":"#FFFFFF","stroke":"#DCDCDC"}
                 ],
                 dataItems2: [

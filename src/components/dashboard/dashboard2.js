@@ -197,9 +197,15 @@ export default function (id, callback) {
         if (tag.amount) {
             // debugger;
             _amount = parseFloat((tag.amount+'').replace(/,/g,''));
+            if (_amount === 0){
+                tag.amount = '0';
+            }
         }
         if (tag.amount2) {
             _amount2 = parseFloat((tag.amount2+'').replace(/,/g,''));
+            if (_amount2 === 0){
+                tag.amount2 = '0';
+            }
         }
         var maxIncome = false;
         if (Math.abs(_amount) < Math.abs(_amount2)) {
