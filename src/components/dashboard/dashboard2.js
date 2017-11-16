@@ -225,7 +225,7 @@ export default function (id, callback) {
             .attr('y', _y)
             .attr('fill',tag.fontcolor2)  
             .attr('font-size',tag.fontsize2)  
-            .attr('font-family','simsun')  
+            .attr('font-family',tag.font? tag.font : 'arial')  
             .attr('font-weight','bold')
             .attr('text-anchor', 'middle')                
             .text(_amount2);
@@ -271,7 +271,7 @@ export default function (id, callback) {
         //         .attr('y', _y)
         //         .attr('fill',tag.fontcolor2)  
         //         .attr('font-size',tag.fontsize2)  
-        //         .attr('font-family','simsun')  
+        //         .attr('font-family','arial')  
         //         .attr('font-weight','bold')
         //         .attr('text-anchor', 'middle')                
         //         .text(_amount2!==0?tag.amount2:_amount2);
@@ -286,7 +286,7 @@ export default function (id, callback) {
         //     .attr('y', _y)
         //     .attr('fill',tag.fontcolor)  
         //     .attr('font-size',tag.fontsize)  
-        //     .attr('font-family','simsun')  
+        //     .attr('font-family','arial')  
         //     .attr('font-weight','bold')
         //     .attr('text-anchor', 'middle')                
         //     .text(_amount!==0?tag.amount:_amount);
